@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true; 
+
+package cn.ladd.grpcx.register.heartbeat.common;
+
+
+message ServerInfo {
+
+  string ip = 1;
+  string port = 2;
+}
+
+message BeatRequest {
+
+  string serviceName = 1;
+  ServerInfo serverInfo = 2;
+}
+
+message Empty {
+
+}
+
+service HeartBeat {
+
+	rpc beat(BeatRequest) returns (Empty){}
+}
