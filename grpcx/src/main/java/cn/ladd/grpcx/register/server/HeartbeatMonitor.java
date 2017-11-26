@@ -1,6 +1,6 @@
-package cn.ladd.grpcx.register.heartbeat.server;
+package cn.ladd.grpcx.register.server;
 
-import cn.ladd.grpcx.register.RegisterService;
+import cn.ladd.grpcx.register.Register;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
@@ -8,15 +8,15 @@ public class HeartbeatMonitor implements Runnable{
 
 	public void heartbeatCheck()
 	{
-		for(String serviceName:RegisterService.getAllServiceNames())
+		for(String serviceName:Register.getAllServiceNames())
 		{
-			for(HostInfo serverInfo:RegisterService.lookup(serviceName))
+			for(HostInfo serverInfo:Register.lookup(serviceName))
 			{
-				String nodeData=RegisterService.getNodeData(serviceName, serverInfo);
+				String nodeData=Register.getNodeData(serviceName, serverInfo);
 				Long lastUpdateTime=Long.valueOf(nodeData);
 				if((System.currentTimeMillis()-lastUpdateTime)>30*60*1000)
 				{
-					RegisterService.removeService(serviceName, serverInfo);
+					Register.removeService(serviceName, serverInfo);
 				}
 				else 
 				{

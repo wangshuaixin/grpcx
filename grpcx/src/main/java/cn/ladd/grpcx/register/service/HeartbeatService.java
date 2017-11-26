@@ -1,4 +1,4 @@
-package cn.ladd.grpcx.register.heartbeat.service;
+package cn.ladd.grpcx.register.service;
 
 import io.grpc.stub.StreamObserver;
 

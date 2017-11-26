@@ -11,6 +11,7 @@ import org.apache.zookeeper.KeeperException;
 
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
+import cn.ladd.grpcx.register.server.ConsumerRefershProxy;
 
 /**
  * 
@@ -20,7 +21,7 @@ import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
  * @20171124
  *
  */
-public class RegisterService {
+public class Register {
 	static CuratorFramework client;
 	static
 	{
@@ -204,9 +205,12 @@ public class RegisterService {
 	private static void notifyAllClients(String serviceName)
 	{
 		ArrayList<HostInfo> clientsHostInfos=getClientHostInfos(serviceName);
+		ArrayList<HostInfo> serviceHostInfos=lookup(serviceName);
 		for(HostInfo clientInfo:clientsHostInfos)
 		{
-			System.out.println("Refresh "+clientInfo.toString());
+			ConsumerRefershProxy consumerRefershProxy=new ConsumerRefershProxy(clientInfo.getIp(), Integer.valueOf(clientInfo.getPort()));
+			consumerRefershProxy.refresh(serviceName,serviceHostInfos);
+			consumerRefershProxy.shutdown();
 		}
 	}
 	
@@ -227,6 +231,7 @@ public class RegisterService {
 //		{
 //			System.out.println("add client url info"+addClientUrlInfo.toString());
 //		}
+//		removeService("pay", HostInfo.newBuilder().setIp("192.198.0.0").setPort("80").build());;
 		for(String serviceName:getAllServiceNames())
 		{
 			for(HostInfo serverInfo:lookup(serviceName))
