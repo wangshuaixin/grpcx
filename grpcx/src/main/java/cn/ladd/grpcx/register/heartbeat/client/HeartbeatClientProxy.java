@@ -2,10 +2,10 @@ package cn.ladd.grpcx.register.heartbeat.client;
 
 import java.util.concurrent.TimeUnit;
 
-import cn.ladd.grpcx.register.heartbeat.common.BeatRequest;
-import cn.ladd.grpcx.register.heartbeat.common.HeartBeatGrpc;
-import cn.ladd.grpcx.register.heartbeat.common.ServerInfo;
-import cn.ladd.grpcx.register.heartbeat.common.HeartBeatGrpc.HeartBeatBlockingStub;
+import cn.ladd.grpcx.register.common.BeatRequest;
+import cn.ladd.grpcx.register.common.HeartBeatGrpc;
+import cn.ladd.grpcx.register.common.HeartBeatGrpc.HeartBeatBlockingStub;
+import cn.ladd.grpcx.register.common.HostInfo;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
@@ -22,13 +22,13 @@ public class HeartbeatClientProxy {
 	
 	public void beat(String serviceName,String ip,String port)
 	{
-		ServerInfo serverInfo=ServerInfo.newBuilder()
+		HostInfo hostInfo=HostInfo.newBuilder()
 								.setIp(ip)
 								.setPort(port)
 								.build();
 		BeatRequest beatRequest=BeatRequest.newBuilder()
 									.setServiceName(serviceName)
-									.setServerInfo(serverInfo)
+									.setHostInfo(hostInfo)
 									.build();
 		heartBeatBlockingStub.beat(beatRequest);
 	}

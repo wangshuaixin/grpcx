@@ -7,11 +7,11 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 
-import cn.ladd.grpcx.register.heartbeat.common.BeatRequest;
-import cn.ladd.grpcx.register.heartbeat.common.Empty;
-import cn.ladd.grpcx.register.heartbeat.common.ServerInfoFormatter;
-import cn.ladd.grpcx.register.heartbeat.common.HeartBeatGrpc.HeartBeatImplBase;
-import cn.ladd.grpcx.register.heartbeat.common.ServerInfo;
+import cn.ladd.grpcx.register.common.BeatRequest;
+import cn.ladd.grpcx.register.common.Empty;
+import cn.ladd.grpcx.register.common.HeartBeatGrpc.HeartBeatImplBase;
+import cn.ladd.grpcx.register.common.HostInfo;
+import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
 /**
  * 
@@ -33,10 +33,10 @@ public class HeartbeatService extends HeartBeatImplBase{
 		client.start();
 	}
 	
-	public static void beat(String serviceName,ServerInfo serverInfo)
+	public static void beat(String serviceName,HostInfo serverInfo)
 	{
-		String url=ServerInfoFormatter.getFormatString(serverInfo);
-		String serviceNodePath="/"+serviceName+"/services/"+url;
+		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
+		String serviceNodePath="/"+serviceName+"/services/"+hostInfoString;
 		String updateTimeStamp=String.valueOf(System.currentTimeMillis());
 		try {
 			if(client.checkExists().forPath(serviceNodePath)!=null)
@@ -55,7 +55,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	public void beat(BeatRequest request, StreamObserver<Empty> responseObserver) {
 		// TODO Auto-generated method stub
 		String serviceName=request.getServiceName();
-		ServerInfo serverInfo=request.getServerInfo();
+		HostInfo serverInfo=request.getHostInfo();
 		beat(serviceName, serverInfo);
 		Empty result=Empty.newBuilder().build();
 		responseObserver.onNext(result);
@@ -64,7 +64,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	
 	
 	
-	private static long getUpdateTimeStamp(String serviceName,ServerInfo serverInfo)
+	private static long getUpdateTimeStamp(String serviceName,HostInfo serverInfo)
 	{
 		String url=serverInfo.toString();
 		String serviceNodePath="/"+serviceName+"/services/"+url;
@@ -83,7 +83,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	}
 	
 	public static void main(String[] args) {
-		ServerInfo addServiceUrlInfo=ServerInfoFormatter.fromFormatString("192.168.0.0:80");
+		HostInfo addServiceUrlInfo=HostInfoFormatter.fromFormatString("192.168.0.0:80");
 		beat("add", addServiceUrlInfo);
 		System.out.println(getUpdateTimeStamp("add", addServiceUrlInfo));
 	}

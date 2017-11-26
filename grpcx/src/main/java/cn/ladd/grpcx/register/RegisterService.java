@@ -9,8 +9,8 @@ import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.ZKPaths;
 import org.apache.zookeeper.KeeperException;
 
-import cn.ladd.grpcx.register.heartbeat.common.ServerInfo;
-import cn.ladd.grpcx.register.heartbeat.common.ServerInfoFormatter;
+import cn.ladd.grpcx.register.common.HostInfo;
+import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
 /**
  * 
@@ -35,11 +35,11 @@ public class RegisterService {
 		client.start();
 	}
 	
-	public static void addService(String serviceName,ServerInfo serverInfo)
+	public static void addService(String serviceName,HostInfo hostInfo)
 	{
-		String serverInfoString=ServerInfoFormatter.getFormatString(serverInfo);
+		String hostInfoString=HostInfoFormatter.getFormatString(hostInfo);
 		String serviceDirPath="/"+serviceName+"/services";
-		String serviceNodePath="/"+serviceName+"/services/"+serverInfoString;
+		String serviceNodePath="/"+serviceName+"/services/"+hostInfoString;
 		try {
 			if(client.checkExists().forPath(serviceDirPath)==null)
 			{
@@ -60,10 +60,10 @@ public class RegisterService {
 		}
 	}
 	
-	public static void removeService(String serviceName,ServerInfo serverInfo)
+	public static void removeService(String serviceName,HostInfo hostInfo)
 	{
-		String serverInfoString=ServerInfoFormatter.getFormatString(serverInfo);
-		String serviceNodePath="/"+serviceName+"/services/"+serverInfoString;
+		String hostInfoString=HostInfoFormatter.getFormatString(hostInfo);
+		String serviceNodePath="/"+serviceName+"/services/"+hostInfoString;
 		try {
 			if(client.checkExists().forPath(serviceNodePath)!=null)
 			{
@@ -80,9 +80,9 @@ public class RegisterService {
 	
 	
 	
-	public static void subscribe(String serviceName,ServerInfo clientHostInfo)
+	public static void subscribe(String serviceName,HostInfo clientHostInfo)
 	{
-		String clientHostInfoString=ServerInfoFormatter.getFormatString(clientHostInfo);
+		String clientHostInfoString=HostInfoFormatter.getFormatString(clientHostInfo);
 		String clientRootPath="/"+serviceName+"/clients";
 		String clientNodePath=clientRootPath+"/"+clientHostInfoString;
 		try {
@@ -104,9 +104,9 @@ public class RegisterService {
 		}
 	}
 	
-	public static void unsubscribe(String serviceName,ServerInfo clientHostInfo)
+	public static void unsubscribe(String serviceName,HostInfo clientHostInfo)
 	{
-		String clientHostInfoString=ServerInfoFormatter.getFormatString(clientHostInfo);
+		String clientHostInfoString=HostInfoFormatter.getFormatString(clientHostInfo);
 		String clientNodePath="/"+serviceName+"/clients/"+clientHostInfoString;
 		try {
 			if(client.checkExists().forPath(clientNodePath)!=null)
@@ -121,27 +121,27 @@ public class RegisterService {
 	
 	
 	
-	private static ArrayList<ServerInfo> getClientUrlInfos(String serviceName)
+	private static ArrayList<HostInfo> getClientHostInfos(String serviceName)
 	{
-		ArrayList<ServerInfo> clinetUrlInfos=new ArrayList<ServerInfo>();
+		ArrayList<HostInfo> clinetHostInfos=new ArrayList<HostInfo>();
 		String clientDirPath="/"+serviceName+"/clients";
 		try {
 			if(client.checkExists().forPath(clientDirPath)==null)
 			{
-				return clinetUrlInfos;
+				return clinetHostInfos;
 			}
 			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+clientDirPath))
-				clinetUrlInfos.add(ServerInfoFormatter.fromFormatString(childNode));
+				clinetHostInfos.add(HostInfoFormatter.fromFormatString(childNode));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return clinetUrlInfos;
+		return clinetHostInfos;
 	}
 	
-	public static ArrayList<ServerInfo> lookup(String serviceName)
+	public static ArrayList<HostInfo> lookup(String serviceName)
 	{
-		ArrayList<ServerInfo> serviceInfos=new ArrayList<ServerInfo>();
+		ArrayList<HostInfo> serviceInfos=new ArrayList<HostInfo>();
 		String serviceDirPath="/"+serviceName+"/services";
 		try {
 			if(client.checkExists().forPath(serviceDirPath)==null)
@@ -154,7 +154,7 @@ public class RegisterService {
 		}
 		try {
 			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+serviceDirPath))
-				serviceInfos.add(ServerInfoFormatter.fromFormatString(childNode));
+				serviceInfos.add(HostInfoFormatter.fromFormatString(childNode));
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -188,10 +188,10 @@ public class RegisterService {
 		return serviceNameList;
 	}
 	
-	public static String getNodeData(String serviceName,ServerInfo serverInfo)
+	public static String getNodeData(String serviceName,HostInfo serverInfo)
 	{
 		String result="";
-		String serviceNodePath="/"+serviceName+"/services/"+ServerInfoFormatter.getFormatString(serverInfo);
+		String serviceNodePath="/"+serviceName+"/services/"+HostInfoFormatter.getFormatString(serverInfo);
 		try {
 			result=new String(client.getData().forPath(serviceNodePath));
 		} catch (Exception e) {
@@ -203,8 +203,8 @@ public class RegisterService {
 	
 	private static void notifyAllClients(String serviceName)
 	{
-		ArrayList<ServerInfo> clientsUrlInfos=getClientUrlInfos(serviceName);
-		for(ServerInfo clientInfo:clientsUrlInfos)
+		ArrayList<HostInfo> clientsHostInfos=getClientHostInfos(serviceName);
+		for(HostInfo clientInfo:clientsHostInfos)
 		{
 			System.out.println("Refresh "+clientInfo.toString());
 		}
@@ -229,11 +229,11 @@ public class RegisterService {
 //		}
 		for(String serviceName:getAllServiceNames())
 		{
-			for(ServerInfo serverInfo:lookup(serviceName))
+			for(HostInfo serverInfo:lookup(serviceName))
 			{
 				String nodeData=getNodeData(serviceName, serverInfo);
 				System.out.println("ServiceName:"+serviceName
-						+";ServerInfo:"+ServerInfoFormatter.getFormatString(serverInfo)
+						+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
 						+";Nodedata:"+nodeData
 						);
 			}
