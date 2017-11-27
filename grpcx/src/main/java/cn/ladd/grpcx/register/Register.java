@@ -7,6 +7,7 @@ import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.curator.utils.ZKPaths;
+import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 
 import cn.ladd.grpcx.register.common.HostInfo;
@@ -232,12 +233,14 @@ public class Register {
 //			System.out.println("add client url info"+addClientUrlInfo.toString());
 //		}
 //		removeService("pay", HostInfo.newBuilder().setIp("192.198.0.0").setPort("80").build());;
+		Logger logger=Logger.getLogger(Register.class);
+		logger.info("Register started!");
 		for(String serviceName:getAllServiceNames())
 		{
 			for(HostInfo serverInfo:lookup(serviceName))
 			{
 				String nodeData=getNodeData(serviceName, serverInfo);
-				System.out.println("ServiceName:"+serviceName
+				logger.info("ServiceName:"+serviceName
 						+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
 						+";Nodedata:"+nodeData
 						);

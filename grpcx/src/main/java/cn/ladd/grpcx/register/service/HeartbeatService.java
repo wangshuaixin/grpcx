@@ -6,6 +6,7 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.log4j.Logger;
 
 import cn.ladd.grpcx.register.common.BeatRequest;
 import cn.ladd.grpcx.register.common.Empty;
@@ -19,6 +20,7 @@ import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
  * @date 20171124
  */
 public class HeartbeatService extends HeartBeatImplBase{
+	static Logger logger=Logger.getLogger(HeartbeatService.class);
 	static CuratorFramework client;
 	static
 	{
@@ -35,6 +37,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	
 	public static void beat(String serviceName,HostInfo serverInfo)
 	{
+		logger.info("Receive beat from "+serviceName+","+HostInfoFormatter.getFormatString(serverInfo));
 		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
 		String serviceNodePath="/"+serviceName+"/services/"+hostInfoString;
 		String updateTimeStamp=String.valueOf(System.currentTimeMillis());

@@ -1,10 +1,14 @@
 package cn.ladd.grpcx.register.server;
 
+import org.apache.log4j.Logger;
+
 import cn.ladd.grpcx.register.Register;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
 public class HeartbeatMonitor implements Runnable{
+	
+	static Logger logger=Logger.getLogger(HeartbeatMonitor.class);
 
 	public void heartbeatCheck()
 	{
@@ -16,11 +20,19 @@ public class HeartbeatMonitor implements Runnable{
 				Long lastUpdateTime=Long.valueOf(nodeData);
 				if((System.currentTimeMillis()-lastUpdateTime)>30*60*1000)
 				{
+					logger.info("ServiceName:"+serviceName
+							+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
+							+";Nodedata:"+nodeData
+							+";State:dead"
+							);
+					logger.info("Remove ServiceName:"+serviceName
+							+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
+							);
 					Register.removeService(serviceName, serverInfo);
 				}
 				else 
 				{
-					System.out.println("ServiceName:"+serviceName
+					logger.info("ServiceName:"+serviceName
 							+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
 							+";Nodedata:"+nodeData
 							+";State:live"
@@ -33,7 +45,7 @@ public class HeartbeatMonitor implements Runnable{
 	
 	public void run() {
 		// TODO Auto-generated method stub
-		System.out.println("HeartbeatMonitor started!");
+		logger.info("HeartbeatMonitor started!");
 		while(true)
 		{
 			try {

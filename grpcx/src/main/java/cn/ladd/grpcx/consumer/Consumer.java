@@ -2,6 +2,8 @@ package cn.ladd.grpcx.consumer;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 import cn.ladd.grpcx.register.service.ConsumerRefreshService;
@@ -11,6 +13,7 @@ import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
 public class Consumer {
+	static Logger logger=Logger.getLogger(Consumer.class);
 	public static void main(String[] args) {
 		
 		
@@ -18,7 +21,7 @@ public class Consumer {
 		for(Object object:consumerProxy.lookup("order"))
 		{
 			HostInfo hostInfo=(HostInfo) object;
-			System.out.println("Order service hostinfo:"+HostInfoFormatter.getFormatString(hostInfo));
+			logger.info("Order service hostinfo:"+HostInfoFormatter.getFormatString(hostInfo));
 		}
 		consumerProxy.subscribe("order", "127.0.0.1", "8091");
 		

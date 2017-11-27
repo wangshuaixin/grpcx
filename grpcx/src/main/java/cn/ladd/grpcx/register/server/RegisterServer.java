@@ -9,9 +9,9 @@ import io.grpc.ServerBuilder;
 
 public class RegisterServer {
 	public static void main(String[] args) {
-//		HeartbeatMonitor heartbeatMonitor=new HeartbeatMonitor();
-//		Thread monitorThread=new Thread(heartbeatMonitor);
-//		monitorThread.start();
+		HeartbeatMonitor heartbeatMonitor=new HeartbeatMonitor();
+		Thread monitorThread=new Thread(heartbeatMonitor);
+		monitorThread.start();
 		
 		Server server=ServerBuilder
 				.forPort(8090)
