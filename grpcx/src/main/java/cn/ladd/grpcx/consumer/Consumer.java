@@ -13,6 +13,11 @@ import cn.ladd.grpcx.register.service.RegisterService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
+/**
+ * Consumer main class
+ * @author ladd
+ * @date
+ */
 public class Consumer {
 	static Logger logger=Logger.getLogger(Consumer.class);
 	static HostInfo selectServiceHost(ArrayList<HostInfo> serviceHostInfos)

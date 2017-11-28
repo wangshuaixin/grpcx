@@ -1,5 +1,10 @@
 package cn.ladd.grpcx.provider;
 
+/**
+ * Provider heartbeat class to send heatbeat to register center
+ * @author ladd
+ * @date 20171125
+ */
 public class ProviderHeartbeatThread extends Thread{
 	
 	ProviderProxy providerProxy;

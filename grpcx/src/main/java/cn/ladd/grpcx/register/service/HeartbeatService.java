@@ -15,7 +15,8 @@ import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
 /**
- * 
+ * Heartbeat service to receive beat from server nodes.
+ * Timestamp info for server node will be updated when receive beat.
  * @author ladd
  * @date 20171124
  */
@@ -76,7 +77,9 @@ public class HeartbeatService extends HeartBeatImplBase{
 			{
 				String data=new String(client.getData().forPath(serviceNodePath));
 				if(data!=null)
+				{
 					return Long.valueOf(data);
+				}
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

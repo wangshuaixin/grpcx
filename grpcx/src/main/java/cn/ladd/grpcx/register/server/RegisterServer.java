@@ -7,6 +7,14 @@ import cn.ladd.grpcx.register.service.RegisterService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
+/**
+ * Register center server class
+ * Register center supports addService,removeService,lookup,
+ * subscribe,unsubscribe,getAllServiceNames and getNodeData services.
+ * When server starts, heartbeat monitor will be started at the same time.
+ * @author ladd
+ * @date 20171125
+ */
 public class RegisterServer {
 	public static void main(String[] args) {
 		HeartbeatMonitor heartbeatMonitor=new HeartbeatMonitor();

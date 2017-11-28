@@ -10,6 +10,11 @@ import cn.ladd.grpcx.register.demo.add.AddGrpc;
 import cn.ladd.grpcx.register.demo.add.AddGrpc.AddBlockingStub;
 import cn.ladd.grpcx.register.demo.add.RequestInfo;
 
+/**
+ * Proxy class for add service
+ * @author ladd
+ * @date 2
+ */
 public class AddProxy {
 	
 	ManagedChannel channel;

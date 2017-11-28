@@ -12,6 +12,11 @@ import cn.ladd.grpcx.register.common.ServiceRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+/**
+ * Proxy for register and heartbeat
+ * @author ladd
+ * @date 20171125
+ */
 public class ProviderProxy {
 	ManagedChannel channel;
 	HeartBeatBlockingStub heartBeatBlockingStub;

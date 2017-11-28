@@ -16,7 +16,7 @@ import cn.ladd.grpcx.register.server.ConsumerRefershProxy;
 
 /**
  * 
- * Register center service
+ * Register center service implement class
  * support lookup,addSevice(register),removeService,subscribe,unsubscribe functions
  * @author ladd
  * @20171124
@@ -133,7 +133,9 @@ public class Register {
 				return clinetHostInfos;
 			}
 			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+clientDirPath))
+			{
 				clinetHostInfos.add(HostInfoFormatter.fromFormatString(childNode));
+			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,7 +158,9 @@ public class Register {
 		}
 		try {
 			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+serviceDirPath))
+			{
 				serviceInfos.add(HostInfoFormatter.fromFormatString(childNode));
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -176,7 +180,9 @@ public class Register {
 		
 		try {
 			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"))
+			{
 				serviceNameList.add(childNode);
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

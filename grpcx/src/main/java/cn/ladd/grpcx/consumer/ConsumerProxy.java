@@ -16,6 +16,11 @@ import cn.ladd.grpcx.register.common.SubscribeRequest;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+/**
+ * Proxy for register service
+ * @author ladd
+ * @date 20171125
+ */
 public class ConsumerProxy {
 	ManagedChannel channel;
 	RegisterBlockingStub registerBlockingStub;

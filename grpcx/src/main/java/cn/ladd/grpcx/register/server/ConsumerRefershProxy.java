@@ -13,6 +13,11 @@ import cn.ladd.grpcx.register.common.RegisterGrpc.RegisterBlockingStub;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+/**
+ * Proxy for ConsumerRefreshService
+ * @author ladd
+ * @date 20171125
+ */
 public class ConsumerRefershProxy {
 	ManagedChannel channel;
 	RefreshServiceInfosBlockingStub refreshServiceInfosBlockingStub;

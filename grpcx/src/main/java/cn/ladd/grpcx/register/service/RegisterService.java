@@ -15,6 +15,13 @@ import cn.ladd.grpcx.register.common.SubscribeRequest;
 import cn.ladd.grpcx.register.common.RegisterGrpc.RegisterImplBase;
 import io.grpc.stub.StreamObserver;
 
+
+/**
+ * Register center service supports addService,removeService,lookup,
+ * subscribe,unsubscribe,getAllServiceNames and getNodeData
+ * @author ladd
+ * @date 20171125
+ */
 public class RegisterService extends RegisterImplBase{
 	
 	@Override

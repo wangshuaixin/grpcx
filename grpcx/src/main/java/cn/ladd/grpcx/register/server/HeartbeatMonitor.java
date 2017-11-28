@@ -6,6 +6,11 @@ import cn.ladd.grpcx.register.Register;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
+/**
+ * Monitor thread class for check servers state
+ * @author ladd
+ * @date 20171125
+ */
 public class HeartbeatMonitor implements Runnable{
 	
 	static Logger logger=Logger.getLogger(HeartbeatMonitor.class);
@@ -41,7 +46,6 @@ public class HeartbeatMonitor implements Runnable{
 			}
 		}
 	}
-	
 	
 	public void run() {
 		// TODO Auto-generated method stub

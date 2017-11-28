@@ -11,6 +11,12 @@ import cn.ladd.grpcx.register.common.RefreshServiceInfosGrpc.RefreshServiceInfos
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 import io.grpc.stub.StreamObserver;
 
+/**
+ * Consumer refresh class to receive notification from register center.
+ * Local host infos will be updated when received new server host infos
+ * @author ladd
+ * @date 20171125
+ */
 public class ConsumerRefreshService extends RefreshServiceInfosImplBase{
 	static Logger logger=Logger.getLogger(ConsumerRefreshService.class);
 	
