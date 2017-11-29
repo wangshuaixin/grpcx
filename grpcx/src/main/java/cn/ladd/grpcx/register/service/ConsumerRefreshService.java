@@ -1,9 +1,11 @@
 package cn.ladd.grpcx.register.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import cn.ladd.grpcx.consumer.LoadBalance;
 import cn.ladd.grpcx.register.common.Empty;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.RefreshRequest;
@@ -25,13 +27,15 @@ public class ConsumerRefreshService extends RefreshServiceInfosImplBase{
 	public void refresh(RefreshRequest request, StreamObserver<Empty> responseObserver) {
 		// TODO Auto-generated method stub
 		String serviceName=request.getServiceName();
-		List serviceHostInfos=request.getHostInfosList();
+		ArrayList<HostInfo> hostInfos=new ArrayList<HostInfo>();
 		logger.info("Refresh host infos:"+serviceName+" Begin");
-		for(Object object:serviceHostInfos)
+		for(Object object:request.getHostInfosList())
 		{
 			HostInfo hostInfo=(HostInfo) object;
+			hostInfos.add(hostInfo);
 			logger.info(HostInfoFormatter.getFormatString(hostInfo));
 		}
+		LoadBalance.refreshHostInfos(serviceName, hostInfos);
 		logger.info("Refresh host infos:"+serviceName+" End");
 		Empty result=Empty.newBuilder().build();
 		responseObserver.onNext(result);
