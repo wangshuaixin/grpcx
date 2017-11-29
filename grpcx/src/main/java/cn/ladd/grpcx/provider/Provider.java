@@ -14,7 +14,7 @@ import io.grpc.ServerBuilder;
 public class Provider {
 	public static void main(String[] args) throws InterruptedException {
 		ProviderProxy heartbeatClientProxy=new ProviderProxy("127.0.0.1", 8090);
-		heartbeatClientProxy.addService("order1", "127.0.0.1", "8094");
+		heartbeatClientProxy.addService("order", "127.0.0.1", "8094");
 		new ProviderHeartbeatThread(heartbeatClientProxy).start();
 		
 		Server server=ServerBuilder.forPort(8094)

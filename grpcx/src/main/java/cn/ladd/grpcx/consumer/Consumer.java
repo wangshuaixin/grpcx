@@ -30,7 +30,7 @@ public class Consumer {
 	}
 	public static void main(String[] args) throws InterruptedException {
 		
-		HostInfo selectedHostInfo=LoadBalance.getHostInfo("order1");
+		HostInfo selectedHostInfo=LoadBalance.getHostInfo("order");
 		AddProxy addProxy=new AddProxy(selectedHostInfo.getIp(), Integer.valueOf(selectedHostInfo.getPort()));
 		logger.info("Result from remote of 1+3="+addProxy.add(1, 3));
 		
