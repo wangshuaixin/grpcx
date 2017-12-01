@@ -8,25 +8,39 @@ public interface BeatRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>bool isCunsumer = 1;</code>
    */
-  java.lang.String getServiceName();
-  /**
-   * <code>string serviceName = 1;</code>
-   */
-  com.google.protobuf.ByteString
-      getServiceNameBytes();
+  boolean getIsCunsumer();
 
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  java.util.List<java.lang.String>
+      getServiceNamesList();
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  int getServiceNamesCount();
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  java.lang.String getServiceNames(int index);
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  com.google.protobuf.ByteString
+      getServiceNamesBytes(int index);
+
+  /**
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   boolean hasHostInfo();
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   cn.ladd.grpcx.register.common.HostInfo getHostInfo();
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder();
 }

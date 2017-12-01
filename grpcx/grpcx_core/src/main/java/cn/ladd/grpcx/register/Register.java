@@ -55,7 +55,7 @@ public class Register {
 					.creatingParentsIfNeeded()
 					.forPath(serviceNodePath, String.valueOf(System.currentTimeMillis()).getBytes());
 			}
-			notifyAllClients(serviceName);
+			notifyAllConsumers(serviceName);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -70,7 +70,7 @@ public class Register {
 			if(client.checkExists().forPath(serviceNodePath)!=null)
 			{
 				client.delete().forPath(serviceNodePath);
-				notifyAllClients(serviceName);
+				notifyAllConsumers(serviceName);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -82,23 +82,23 @@ public class Register {
 	
 	
 	
-	public static void subscribe(String serviceName,HostInfo clientHostInfo)
+	public static void subscribe(String serviceName,HostInfo consumerHostInfo)
 	{
-		String clientHostInfoString=HostInfoFormatter.getFormatString(clientHostInfo);
-		String clientRootPath="/"+serviceName+"/clients";
-		String clientNodePath=clientRootPath+"/"+clientHostInfoString;
+		String clientHostInfoString=HostInfoFormatter.getFormatString(consumerHostInfo);
+		String consumerRootPath="/"+serviceName+"/consumers";
+		String consumerNodePath=consumerRootPath+"/"+clientHostInfoString;
 		try {
-			if(client.checkExists().forPath(clientRootPath)==null)
+			if(client.checkExists().forPath(consumerRootPath)==null)
 			{
 				client.create()
 				.creatingParentsIfNeeded()
-				.forPath(clientRootPath);
+				.forPath(consumerRootPath);
 			}
-			if(client.checkExists().forPath(clientNodePath)==null)
+			if(client.checkExists().forPath(consumerNodePath)==null)
 			{
 				client.create()
 					.creatingParentsIfNeeded()
-					.forPath(clientNodePath, clientHostInfoString.getBytes());
+					.forPath(consumerNodePath, clientHostInfoString.getBytes());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -108,12 +108,12 @@ public class Register {
 	
 	public static void unsubscribe(String serviceName,HostInfo clientHostInfo)
 	{
-		String clientHostInfoString=HostInfoFormatter.getFormatString(clientHostInfo);
-		String clientNodePath="/"+serviceName+"/clients/"+clientHostInfoString;
+		String consumerHostInfoString=HostInfoFormatter.getFormatString(clientHostInfo);
+		String consumerNodePath="/"+serviceName+"/consumers/"+consumerHostInfoString;
 		try {
-			if(client.checkExists().forPath(clientNodePath)!=null)
+			if(client.checkExists().forPath(consumerNodePath)!=null)
 			{
-				client.delete().forPath(clientNodePath);
+				client.delete().forPath(consumerNodePath);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -123,24 +123,24 @@ public class Register {
 	
 	
 	
-	private static ArrayList<HostInfo> getClientHostInfos(String serviceName)
+	private static ArrayList<HostInfo> getConsumerHostInfos(String serviceName)
 	{
-		ArrayList<HostInfo> clinetHostInfos=new ArrayList<HostInfo>();
-		String clientDirPath="/"+serviceName+"/clients";
+		ArrayList<HostInfo> consumerHostInfos=new ArrayList<HostInfo>();
+		String consumerDirPath="/"+serviceName+"/consumers";
 		try {
-			if(client.checkExists().forPath(clientDirPath)==null)
+			if(client.checkExists().forPath(consumerDirPath)==null)
 			{
-				return clinetHostInfos;
+				return consumerHostInfos;
 			}
-			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+clientDirPath))
+			for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+consumerDirPath))
 			{
-				clinetHostInfos.add(HostInfoFormatter.fromFormatString(childNode));
+				consumerHostInfos.add(HostInfoFormatter.fromFormatString(childNode));
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return clinetHostInfos;
+		return consumerHostInfos;
 	}
 	
 	public static ArrayList<HostInfo> lookup(String serviceName)
@@ -209,13 +209,13 @@ public class Register {
 		return result;
 	}
 	
-	private static void notifyAllClients(String serviceName)
+	private static void notifyAllConsumers(String serviceName)
 	{
-		ArrayList<HostInfo> clientsHostInfos=getClientHostInfos(serviceName);
+		ArrayList<HostInfo> cosumerHostInfos=getConsumerHostInfos(serviceName);
 		ArrayList<HostInfo> serviceHostInfos=lookup(serviceName);
-		for(HostInfo clientInfo:clientsHostInfos)
+		for(HostInfo consumerInfo:cosumerHostInfos)
 		{
-			ConsumerRefershProxy consumerRefershProxy=new ConsumerRefershProxy(clientInfo.getIp(), Integer.valueOf(clientInfo.getPort()));
+			ConsumerRefershProxy consumerRefershProxy=new ConsumerRefershProxy(consumerInfo.getIp(), Integer.valueOf(consumerInfo.getPort()));
 			consumerRefershProxy.refresh(serviceName,serviceHostInfos);
 			consumerRefershProxy.shutdown();
 		}

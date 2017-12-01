@@ -16,7 +16,8 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private BeatRequest() {
-    serviceName_ = "";
+    isCunsumer_ = false;
+    serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
   @java.lang.Override
@@ -47,13 +48,21 @@ private static final long serialVersionUID = 0L;
             }
             break;
           }
-          case 10: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 8: {
 
-            serviceName_ = s;
+            isCunsumer_ = input.readBool();
             break;
           }
           case 18: {
+            java.lang.String s = input.readStringRequireUtf8();
+            if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              serviceNames_ = new com.google.protobuf.LazyStringArrayList();
+              mutable_bitField0_ |= 0x00000002;
+            }
+            serviceNames_.add(s);
+            break;
+          }
+          case 26: {
             cn.ladd.grpcx.register.common.HostInfo.Builder subBuilder = null;
             if (hostInfo_ != null) {
               subBuilder = hostInfo_.toBuilder();
@@ -74,6 +83,9 @@ private static final long serialVersionUID = 0L;
       throw new com.google.protobuf.InvalidProtocolBufferException(
           e).setUnfinishedMessage(this);
     } finally {
+      if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        serviceNames_ = serviceNames_.getUnmodifiableView();
+      }
       this.unknownFields = unknownFields.build();
       makeExtensionsImmutable();
     }
@@ -90,56 +102,61 @@ private static final long serialVersionUID = 0L;
             cn.ladd.grpcx.register.common.BeatRequest.class, cn.ladd.grpcx.register.common.BeatRequest.Builder.class);
   }
 
-  public static final int SERVICENAME_FIELD_NUMBER = 1;
-  private volatile java.lang.Object serviceName_;
+  private int bitField0_;
+  public static final int ISCUNSUMER_FIELD_NUMBER = 1;
+  private boolean isCunsumer_;
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>bool isCunsumer = 1;</code>
    */
-  public java.lang.String getServiceName() {
-    java.lang.Object ref = serviceName_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      serviceName_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string serviceName = 1;</code>
-   */
-  public com.google.protobuf.ByteString
-      getServiceNameBytes() {
-    java.lang.Object ref = serviceName_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      serviceName_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public boolean getIsCunsumer() {
+    return isCunsumer_;
   }
 
-  public static final int HOSTINFO_FIELD_NUMBER = 2;
+  public static final int SERVICENAMES_FIELD_NUMBER = 2;
+  private com.google.protobuf.LazyStringList serviceNames_;
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  public com.google.protobuf.ProtocolStringList
+      getServiceNamesList() {
+    return serviceNames_;
+  }
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  public int getServiceNamesCount() {
+    return serviceNames_.size();
+  }
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  public java.lang.String getServiceNames(int index) {
+    return serviceNames_.get(index);
+  }
+  /**
+   * <code>repeated string serviceNames = 2;</code>
+   */
+  public com.google.protobuf.ByteString
+      getServiceNamesBytes(int index) {
+    return serviceNames_.getByteString(index);
+  }
+
+  public static final int HOSTINFO_FIELD_NUMBER = 3;
   private cn.ladd.grpcx.register.common.HostInfo hostInfo_;
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public boolean hasHostInfo() {
     return hostInfo_ != null;
   }
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public cn.ladd.grpcx.register.common.HostInfo getHostInfo() {
     return hostInfo_ == null ? cn.ladd.grpcx.register.common.HostInfo.getDefaultInstance() : hostInfo_;
   }
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder() {
     return getHostInfo();
@@ -157,11 +174,14 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (!getServiceNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, serviceName_);
+    if (isCunsumer_ != false) {
+      output.writeBool(1, isCunsumer_);
+    }
+    for (int i = 0; i < serviceNames_.size(); i++) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serviceNames_.getRaw(i));
     }
     if (hostInfo_ != null) {
-      output.writeMessage(2, getHostInfo());
+      output.writeMessage(3, getHostInfo());
     }
     unknownFields.writeTo(output);
   }
@@ -171,12 +191,21 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (!getServiceNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, serviceName_);
+    if (isCunsumer_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(1, isCunsumer_);
+    }
+    {
+      int dataSize = 0;
+      for (int i = 0; i < serviceNames_.size(); i++) {
+        dataSize += computeStringSizeNoTag(serviceNames_.getRaw(i));
+      }
+      size += dataSize;
+      size += 1 * getServiceNamesList().size();
     }
     if (hostInfo_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, getHostInfo());
+        .computeMessageSize(3, getHostInfo());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -194,8 +223,10 @@ private static final long serialVersionUID = 0L;
     cn.ladd.grpcx.register.common.BeatRequest other = (cn.ladd.grpcx.register.common.BeatRequest) obj;
 
     boolean result = true;
-    result = result && getServiceName()
-        .equals(other.getServiceName());
+    result = result && (getIsCunsumer()
+        == other.getIsCunsumer());
+    result = result && getServiceNamesList()
+        .equals(other.getServiceNamesList());
     result = result && (hasHostInfo() == other.hasHostInfo());
     if (hasHostInfo()) {
       result = result && getHostInfo()
@@ -212,8 +243,13 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + SERVICENAME_FIELD_NUMBER;
-    hash = (53 * hash) + getServiceName().hashCode();
+    hash = (37 * hash) + ISCUNSUMER_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsCunsumer());
+    if (getServiceNamesCount() > 0) {
+      hash = (37 * hash) + SERVICENAMES_FIELD_NUMBER;
+      hash = (53 * hash) + getServiceNamesList().hashCode();
+    }
     if (hasHostInfo()) {
       hash = (37 * hash) + HOSTINFO_FIELD_NUMBER;
       hash = (53 * hash) + getHostInfo().hashCode();
@@ -347,8 +383,10 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      serviceName_ = "";
+      isCunsumer_ = false;
 
+      serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000002);
       if (hostInfoBuilder_ == null) {
         hostInfo_ = null;
       } else {
@@ -377,12 +415,20 @@ private static final long serialVersionUID = 0L;
 
     public cn.ladd.grpcx.register.common.BeatRequest buildPartial() {
       cn.ladd.grpcx.register.common.BeatRequest result = new cn.ladd.grpcx.register.common.BeatRequest(this);
-      result.serviceName_ = serviceName_;
+      int from_bitField0_ = bitField0_;
+      int to_bitField0_ = 0;
+      result.isCunsumer_ = isCunsumer_;
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        serviceNames_ = serviceNames_.getUnmodifiableView();
+        bitField0_ = (bitField0_ & ~0x00000002);
+      }
+      result.serviceNames_ = serviceNames_;
       if (hostInfoBuilder_ == null) {
         result.hostInfo_ = hostInfo_;
       } else {
         result.hostInfo_ = hostInfoBuilder_.build();
       }
+      result.bitField0_ = to_bitField0_;
       onBuilt();
       return result;
     }
@@ -424,8 +470,17 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(cn.ladd.grpcx.register.common.BeatRequest other) {
       if (other == cn.ladd.grpcx.register.common.BeatRequest.getDefaultInstance()) return this;
-      if (!other.getServiceName().isEmpty()) {
-        serviceName_ = other.serviceName_;
+      if (other.getIsCunsumer() != false) {
+        setIsCunsumer(other.getIsCunsumer());
+      }
+      if (!other.serviceNames_.isEmpty()) {
+        if (serviceNames_.isEmpty()) {
+          serviceNames_ = other.serviceNames_;
+          bitField0_ = (bitField0_ & ~0x00000002);
+        } else {
+          ensureServiceNamesIsMutable();
+          serviceNames_.addAll(other.serviceNames_);
+        }
         onChanged();
       }
       if (other.hasHostInfo()) {
@@ -457,72 +512,124 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
+    private int bitField0_;
 
-    private java.lang.Object serviceName_ = "";
+    private boolean isCunsumer_ ;
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>bool isCunsumer = 1;</code>
      */
-    public java.lang.String getServiceName() {
-      java.lang.Object ref = serviceName_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        serviceName_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    public boolean getIsCunsumer() {
+      return isCunsumer_;
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>bool isCunsumer = 1;</code>
+     */
+    public Builder setIsCunsumer(boolean value) {
+      
+      isCunsumer_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>bool isCunsumer = 1;</code>
+     */
+    public Builder clearIsCunsumer() {
+      
+      isCunsumer_ = false;
+      onChanged();
+      return this;
+    }
+
+    private com.google.protobuf.LazyStringList serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    private void ensureServiceNamesIsMutable() {
+      if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        serviceNames_ = new com.google.protobuf.LazyStringArrayList(serviceNames_);
+        bitField0_ |= 0x00000002;
+       }
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getServiceNamesList() {
+      return serviceNames_.getUnmodifiableView();
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
+     */
+    public int getServiceNamesCount() {
+      return serviceNames_.size();
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
+     */
+    public java.lang.String getServiceNames(int index) {
+      return serviceNames_.get(index);
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
      */
     public com.google.protobuf.ByteString
-        getServiceNameBytes() {
-      java.lang.Object ref = serviceName_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        serviceName_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+        getServiceNamesBytes(int index) {
+      return serviceNames_.getByteString(index);
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>repeated string serviceNames = 2;</code>
      */
-    public Builder setServiceName(
+    public Builder setServiceNames(
+        int index, java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureServiceNamesIsMutable();
+      serviceNames_.set(index, value);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
+     */
+    public Builder addServiceNames(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
-  
-      serviceName_ = value;
+  ensureServiceNamesIsMutable();
+      serviceNames_.add(value);
       onChanged();
       return this;
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>repeated string serviceNames = 2;</code>
      */
-    public Builder clearServiceName() {
-      
-      serviceName_ = getDefaultInstance().getServiceName();
+    public Builder addAllServiceNames(
+        java.lang.Iterable<java.lang.String> values) {
+      ensureServiceNamesIsMutable();
+      com.google.protobuf.AbstractMessageLite.Builder.addAll(
+          values, serviceNames_);
       onChanged();
       return this;
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>repeated string serviceNames = 2;</code>
      */
-    public Builder setServiceNameBytes(
+    public Builder clearServiceNames() {
+      serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      bitField0_ = (bitField0_ & ~0x00000002);
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>repeated string serviceNames = 2;</code>
+     */
+    public Builder addServiceNamesBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
-      
-      serviceName_ = value;
+      ensureServiceNamesIsMutable();
+      serviceNames_.add(value);
       onChanged();
       return this;
     }
@@ -531,13 +638,13 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         cn.ladd.grpcx.register.common.HostInfo, cn.ladd.grpcx.register.common.HostInfo.Builder, cn.ladd.grpcx.register.common.HostInfoOrBuilder> hostInfoBuilder_;
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public boolean hasHostInfo() {
       return hostInfoBuilder_ != null || hostInfo_ != null;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfo getHostInfo() {
       if (hostInfoBuilder_ == null) {
@@ -547,7 +654,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder setHostInfo(cn.ladd.grpcx.register.common.HostInfo value) {
       if (hostInfoBuilder_ == null) {
@@ -563,7 +670,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder setHostInfo(
         cn.ladd.grpcx.register.common.HostInfo.Builder builderForValue) {
@@ -577,7 +684,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder mergeHostInfo(cn.ladd.grpcx.register.common.HostInfo value) {
       if (hostInfoBuilder_ == null) {
@@ -595,7 +702,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder clearHostInfo() {
       if (hostInfoBuilder_ == null) {
@@ -609,7 +716,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfo.Builder getHostInfoBuilder() {
       
@@ -617,7 +724,7 @@ private static final long serialVersionUID = 0L;
       return getHostInfoFieldBuilder().getBuilder();
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder() {
       if (hostInfoBuilder_ != null) {
@@ -628,7 +735,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         cn.ladd.grpcx.register.common.HostInfo, cn.ladd.grpcx.register.common.HostInfo.Builder, cn.ladd.grpcx.register.common.HostInfoOrBuilder> 

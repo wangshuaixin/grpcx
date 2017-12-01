@@ -1,5 +1,6 @@
 package cn.ladd.grpcx.provider;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import cn.ladd.grpcx.register.common.BeatRequest;
@@ -32,14 +33,11 @@ public class ProviderProxy {
 	
 	
 	
-	public void beat(String serviceName,String ip,String port)
+	public void beat(ArrayList<String> serviceNames,HostInfo hostInfo)
 	{
-		HostInfo hostInfo=HostInfo.newBuilder()
-								.setIp(ip)
-								.setPort(port)
-								.build();
 		BeatRequest beatRequest=BeatRequest.newBuilder()
-									.setServiceName(serviceName)
+									.setIsCunsumer(false)
+									.addAllServiceNames(serviceNames)
 									.setHostInfo(hostInfo)
 									.build();
 		heartBeatBlockingStub.beat(beatRequest);

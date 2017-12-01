@@ -14,8 +14,9 @@ message HostInfo {
 
 message BeatRequest {
 
-  string serviceName = 1;
-  HostInfo hostInfo = 2;
+  bool isCunsumer=1;
+  repeated string serviceNames = 2;
+  HostInfo hostInfo = 3;
 }
 
 message ServiceRequest {

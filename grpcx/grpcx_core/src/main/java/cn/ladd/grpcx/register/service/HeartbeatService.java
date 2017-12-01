@@ -36,17 +36,34 @@ public class HeartbeatService extends HeartBeatImplBase{
 		client.start();
 	}
 	
-	public static void beat(String serviceName,HostInfo serverInfo)
+	
+	
+	
+	@Override
+	public void beat(BeatRequest request, StreamObserver<Empty> responseObserver) {
+		// TODO Auto-generated method stub
+		HostInfo serverInfo=request.getHostInfo();
+		boolean isConsumer=request.getIsCunsumer();
+		for(Object object:request.getServiceNamesList())
+		{
+			String serviceName=(String) object;
+			beat(isConsumer,serviceName, serverInfo);
+		}
+		Empty result=Empty.newBuilder().build();
+		responseObserver.onNext(result);
+		responseObserver.onCompleted();
+	}
+	
+	public static void beat(boolean isConsumer,String serviceName,HostInfo serverInfo)
 	{
 		logger.info("Receive beat from "+serviceName+","+HostInfoFormatter.getFormatString(serverInfo));
-		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
-		String serviceNodePath="/"+serviceName+"/services/"+hostInfoString;
+		String nodePath=getNodePath(isConsumer, serviceName, serverInfo);
 		String updateTimeStamp=String.valueOf(System.currentTimeMillis());
 		try {
-			if(client.checkExists().forPath(serviceNodePath)!=null)
+			if(client.checkExists().forPath(nodePath)!=null)
 			{
 				client.setData()
-					.forPath(serviceNodePath, updateTimeStamp.getBytes());
+					.forPath(nodePath, updateTimeStamp.getBytes());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -54,28 +71,13 @@ public class HeartbeatService extends HeartBeatImplBase{
 		}
 	}
 	
-	
-	@Override
-	public void beat(BeatRequest request, StreamObserver<Empty> responseObserver) {
-		// TODO Auto-generated method stub
-		String serviceName=request.getServiceName();
-		HostInfo serverInfo=request.getHostInfo();
-		beat(serviceName, serverInfo);
-		Empty result=Empty.newBuilder().build();
-		responseObserver.onNext(result);
-		responseObserver.onCompleted();
-	}
-	
-	
-	
-	private static long getUpdateTimeStamp(String serviceName,HostInfo serverInfo)
+	private static long getUpdateTimeStamp(boolean isConsumer,String serviceName,HostInfo serverInfo)
 	{
-		String url=serverInfo.toString();
-		String serviceNodePath="/"+serviceName+"/services/"+url;
+		String nodePath=getNodePath(isConsumer, serviceName, serverInfo);
 		try {
-			if(client.checkExists().forPath(serviceNodePath)!=null)
+			if(client.checkExists().forPath(nodePath)!=null)
 			{
-				String data=new String(client.getData().forPath(serviceNodePath));
+				String data=new String(client.getData().forPath(nodePath));
 				if(data!=null)
 				{
 					return Long.valueOf(data);
@@ -88,10 +90,24 @@ public class HeartbeatService extends HeartBeatImplBase{
 		return -1;
 	}
 	
+	private static String getNodePath(boolean isConsumer,String serviceName,HostInfo serverInfo)
+	{
+		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
+		String nodePath;
+		if(isConsumer)
+		{
+			nodePath="/"+serviceName+"/consumers/"+hostInfoString;
+		}
+		else {
+			nodePath="/"+serviceName+"/services/"+hostInfoString;
+		}
+		return nodePath;
+	}
+	
+	
+	
+	
 	public static void main(String[] args) {
-		HostInfo addServiceUrlInfo=HostInfoFormatter.fromFormatString("192.168.0.0:80");
-		beat("add", addServiceUrlInfo);
-		System.out.println(getUpdateTimeStamp("add", addServiceUrlInfo));
 	}
 	
 }
