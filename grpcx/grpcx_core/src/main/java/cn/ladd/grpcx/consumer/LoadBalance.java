@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.apache.log4j.Logger;
 
+import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 
@@ -43,7 +44,7 @@ public class LoadBalance {
 	{
 		if(LOCALSERVER_HOSTINFOS.get(serviceName)==null)
 		{
-			ConsumerProxy consumerProxy=new ConsumerProxy("127.0.0.1", 8090);
+			ConsumerProxy consumerProxy=new ConsumerProxy(Config.getRegisterIP(), Config.getRegisterPort());
 			ArrayList<HostInfo> serviceHostInfos=new ArrayList<HostInfo>();
 			for(Object object:consumerProxy.lookup(serviceName))
 			{
@@ -52,7 +53,7 @@ public class LoadBalance {
 				logger.info(serviceName+" service hostinfo:"+HostInfoFormatter.getFormatString(hostInfo));
 			}
 			refreshHostInfos(serviceName, serviceHostInfos);
-			consumerProxy.subscribe(serviceName, "127.0.0.1", "8091");
+			consumerProxy.subscribe(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
 		}
 		
 		if(LOADBALANCE_ROUNDRONBIN.equals(LOADBALANCE_STRATEGY))

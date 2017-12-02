@@ -8,6 +8,8 @@ import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
 import org.apache.log4j.Logger;
 
+import cn.ladd.grpcx.config.Config;
+import cn.ladd.grpcx.register.Register;
 import cn.ladd.grpcx.register.common.BeatRequest;
 import cn.ladd.grpcx.register.common.Empty;
 import cn.ladd.grpcx.register.common.HeartBeatGrpc.HeartBeatImplBase;
@@ -28,7 +30,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 		RetryPolicy retryPolicy=new ExponentialBackoffRetry(1000, 3);
 		client=CuratorFrameworkFactory
 	    		.builder()
-	    		.connectString("localhost:2181")
+	    		.connectString(Config.getZookeeperHost())
 	    		.sessionTimeoutMs(5000)
 	    		.namespace("registor")
 	    		.retryPolicy(retryPolicy)
@@ -43,7 +45,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	public void beat(BeatRequest request, StreamObserver<Empty> responseObserver) {
 		// TODO Auto-generated method stub
 		HostInfo serverInfo=request.getHostInfo();
-		boolean isConsumer=request.getIsCunsumer();
+		boolean isConsumer=request.getIsConsumer();
 		for(Object object:request.getServiceNamesList())
 		{
 			String serviceName=(String) object;
@@ -57,7 +59,7 @@ public class HeartbeatService extends HeartBeatImplBase{
 	public static void beat(boolean isConsumer,String serviceName,HostInfo serverInfo)
 	{
 		logger.info("Receive beat from "+serviceName+","+HostInfoFormatter.getFormatString(serverInfo));
-		String nodePath=getNodePath(isConsumer, serviceName, serverInfo);
+		String nodePath=Register.getNodePath(isConsumer, serviceName, serverInfo);
 		String updateTimeStamp=String.valueOf(System.currentTimeMillis());
 		try {
 			if(client.checkExists().forPath(nodePath)!=null)
@@ -71,43 +73,5 @@ public class HeartbeatService extends HeartBeatImplBase{
 		}
 	}
 	
-	private static long getUpdateTimeStamp(boolean isConsumer,String serviceName,HostInfo serverInfo)
-	{
-		String nodePath=getNodePath(isConsumer, serviceName, serverInfo);
-		try {
-			if(client.checkExists().forPath(nodePath)!=null)
-			{
-				String data=new String(client.getData().forPath(nodePath));
-				if(data!=null)
-				{
-					return Long.valueOf(data);
-				}
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return -1;
-	}
-	
-	private static String getNodePath(boolean isConsumer,String serviceName,HostInfo serverInfo)
-	{
-		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
-		String nodePath;
-		if(isConsumer)
-		{
-			nodePath="/"+serviceName+"/consumers/"+hostInfoString;
-		}
-		else {
-			nodePath="/"+serviceName+"/services/"+hostInfoString;
-		}
-		return nodePath;
-	}
-	
-	
-	
-	
-	public static void main(String[] args) {
-	}
 	
 }

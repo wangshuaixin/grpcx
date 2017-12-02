@@ -10,6 +10,7 @@ import org.apache.curator.utils.ZKPaths;
 import org.apache.log4j.Logger;
 import org.apache.zookeeper.KeeperException;
 
+import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
 import cn.ladd.grpcx.register.server.ConsumerRefershProxy;
@@ -29,7 +30,7 @@ public class Register {
 		RetryPolicy retryPolicy=new ExponentialBackoffRetry(1000, 3);
 		client=CuratorFrameworkFactory
 	    		.builder()
-	    		.connectString("localhost:2181")
+	    		.connectString(Config.getZookeeperHost())
 	    		.sessionTimeoutMs(5000)
 	    		.namespace("registor")
 	    		.retryPolicy(retryPolicy)
@@ -121,9 +122,22 @@ public class Register {
 		}
 	}
 	
+	public static String getNodePath(boolean isConsumer,String serviceName,HostInfo serverInfo)
+	{
+		String hostInfoString=HostInfoFormatter.getFormatString(serverInfo);
+		String nodePath;
+		if(isConsumer)
+		{
+			nodePath="/"+serviceName+"/consumers/"+hostInfoString;
+		}
+		else {
+			nodePath="/"+serviceName+"/services/"+hostInfoString;
+		}
+		return nodePath;
+	}
 	
 	
-	private static ArrayList<HostInfo> getConsumerHostInfos(String serviceName)
+	public static ArrayList<HostInfo> getConsumerHostInfos(String serviceName)
 	{
 		ArrayList<HostInfo> consumerHostInfos=new ArrayList<HostInfo>();
 		String consumerDirPath="/"+serviceName+"/consumers";
@@ -196,12 +210,12 @@ public class Register {
 		return serviceNameList;
 	}
 	
-	public static String getNodeData(String serviceName,HostInfo serverInfo)
+	public static String getNodeData(boolean isConsumer,String serviceName,HostInfo serverInfo)
 	{
 		String result="";
-		String serviceNodePath="/"+serviceName+"/services/"+HostInfoFormatter.getFormatString(serverInfo);
+		String nodePath=getNodePath(isConsumer, serviceName, serverInfo);
 		try {
-			result=new String(client.getData().forPath(serviceNodePath));
+			result=new String(client.getData().forPath(nodePath));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -245,7 +259,7 @@ public class Register {
 		{
 			for(HostInfo serverInfo:lookup(serviceName))
 			{
-				String nodeData=getNodeData(serviceName, serverInfo);
+				String nodeData=getNodeData(false,serviceName, serverInfo);
 				logger.info("ServiceName:"+serviceName
 						+";ServerInfo:"+HostInfoFormatter.getFormatString(serverInfo)
 						+";Nodedata:"+nodeData

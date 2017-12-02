@@ -8,25 +8,30 @@ public interface GetDataRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>bool isCunsumer = 1;</code>
+   */
+  boolean getIsCunsumer();
+
+  /**
+   * <code>string serviceName = 2;</code>
    */
   java.lang.String getServiceName();
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>string serviceName = 2;</code>
    */
   com.google.protobuf.ByteString
       getServiceNameBytes();
 
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   boolean hasHostInfo();
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   cn.ladd.grpcx.register.common.HostInfo getHostInfo();
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder();
 }

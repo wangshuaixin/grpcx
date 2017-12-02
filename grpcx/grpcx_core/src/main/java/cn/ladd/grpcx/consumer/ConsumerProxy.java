@@ -24,11 +24,13 @@ import io.grpc.ManagedChannelBuilder;
 public class ConsumerProxy {
 	ManagedChannel channel;
 	RegisterBlockingStub registerBlockingStub;
+	HeartBeatBlockingStub heartBeatBlockingStub;
 	public ConsumerProxy(String ip,int port) {
 		// TODO Auto-generated constructor stub
 		channel=ManagedChannelBuilder.forAddress(ip, port)
 					.usePlaintext(true)
 					.build();
+		heartBeatBlockingStub=HeartBeatGrpc.newBlockingStub(channel);
 		registerBlockingStub=RegisterGrpc.newBlockingStub(channel);
 	}
 	
@@ -66,6 +68,17 @@ public class ConsumerProxy {
 											.setHostInfo(clientHostInfo)
 											.build();
 		registerBlockingStub.unsubscribe(unsubscribeRequest);
+	}
+	
+	
+	public void beat(ArrayList<String> serviceNames,HostInfo hostInfo)
+	{
+		BeatRequest beatRequest=BeatRequest.newBuilder()
+									.setIsConsumer(true)
+									.addAllServiceNames(serviceNames)
+									.setHostInfo(hostInfo)
+									.build();
+		heartBeatBlockingStub.beat(beatRequest);
 	}
 	
 	public void shutdown() 

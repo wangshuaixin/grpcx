@@ -21,14 +21,20 @@ import io.grpc.ServerBuilder;
  */
 public class Consumer {
 	static Logger logger=Logger.getLogger(Consumer.class);
+	
 	public static void main(String[] args) throws InterruptedException {
 		
-		HostInfo selectedHostInfo=LoadBalance.getHostInfo("order3");
+		HostInfo selectedHostInfo=LoadBalance.getHostInfo("cal");
 		AddProxy addProxy=new AddProxy(selectedHostInfo.getIp(), Integer.valueOf(selectedHostInfo.getPort()));
 		logger.info("Result from remote of 1+3="+addProxy.add(1, 3));
 		
 		ConsumerRefreshThread consumerRefreshThread=new ConsumerRefreshThread();
 		consumerRefreshThread.start();
+		
+		ArrayList<String> serviceNames=new ArrayList<String>();
+		serviceNames.add("cal");
+		ConsumerHeartbeatThread consumerHeartbeatThread=new ConsumerHeartbeatThread(serviceNames);
+		consumerHeartbeatThread.start();
 		
 		Thread.sleep(10000*1000);
 	}

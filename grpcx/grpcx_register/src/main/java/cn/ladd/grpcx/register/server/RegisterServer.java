@@ -2,6 +2,7 @@ package cn.ladd.grpcx.register.server;
 
 import java.io.IOException;
 
+import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.register.service.HeartbeatService;
 import cn.ladd.grpcx.register.service.RegisterService;
 import io.grpc.Server;
@@ -22,13 +23,12 @@ public class RegisterServer {
 		monitorThread.start();
 		
 		Server server=ServerBuilder
-				.forPort(8090)
+				.forPort(Config.getRegisterPort())
 				.addService(new HeartbeatService())
 				.addService(new RegisterService())
 				.build();
 		try {
 			server.start();
-			
 			server.awaitTermination();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

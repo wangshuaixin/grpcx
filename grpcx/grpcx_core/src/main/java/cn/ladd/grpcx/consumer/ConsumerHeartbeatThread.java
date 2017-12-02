@@ -1,4 +1,4 @@
-package cn.ladd.grpcx.provider;
+package cn.ladd.grpcx.consumer;
 
 import java.util.ArrayList;
 
@@ -10,19 +10,22 @@ import cn.ladd.grpcx.register.common.HostInfo;
  * @author ladd
  * @date 20171125
  */
-public class ProviderHeartbeatThread extends Thread{
+public class ConsumerHeartbeatThread extends Thread{
 	
-	ProviderProxy providerProxy;
+	ConsumerProxy consumerProxy;
 	ArrayList<String> serviceNames;
-	HostInfo hostInfo;
+	HostInfo localHostInfo;
 	int heartbeatInterval;
 	boolean stopped;
 	
-	public ProviderHeartbeatThread(ProviderProxy providerProxy,ArrayList<String> serviceNames,HostInfo hostInfo) {
+	public ConsumerHeartbeatThread(ArrayList<String> serviceNames) {
 		// TODO Auto-generated constructor stub
-		this.providerProxy=providerProxy;
+		this.consumerProxy=new ConsumerProxy(Config.getRegisterIP(), Config.getRegisterPort());
 		this.serviceNames=serviceNames;
-		this.hostInfo=hostInfo;
+		this.localHostInfo=HostInfo.newBuilder()
+							.setIp(Config.getLocalIP())
+							.setPort(String.valueOf(Config.getLocalPort()))
+							.build();
 		this.heartbeatInterval=Config.getHeartbeatInterval();
 		this.stopped=false;
 	}
@@ -37,7 +40,7 @@ public class ProviderHeartbeatThread extends Thread{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			providerProxy.beat(serviceNames, hostInfo);
+			consumerProxy.beat(serviceNames, localHostInfo);
 		}
 	}
 }

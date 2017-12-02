@@ -5,6 +5,7 @@ import io.grpc.ServerBuilder;
 
 import java.io.IOException;
 
+import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.register.service.ConsumerRefreshService;
 
 /**
@@ -19,7 +20,7 @@ public class ConsumerRefreshThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		Server server=ServerBuilder
-				.forPort(8091)
+				.forPort(Config.getLocalPort())
 				.addService(new ConsumerRefreshService())
 				.build();
 		try {

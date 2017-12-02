@@ -106,6 +106,19 @@ public final class RegisterGrpc {
           .setSchemaDescriptor(new RegisterMethodDescriptorSupplier("getAllServiceNames"))
           .build();
   @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  public static final io.grpc.MethodDescriptor<cn.ladd.grpcx.register.common.GetConsumerRequest,
+      cn.ladd.grpcx.register.common.GetConsumerResponse> METHOD_GET_CONSUMER_HOST_INFOS =
+      io.grpc.MethodDescriptor.<cn.ladd.grpcx.register.common.GetConsumerRequest, cn.ladd.grpcx.register.common.GetConsumerResponse>newBuilder()
+          .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+          .setFullMethodName(generateFullMethodName(
+              "cn.ladd.grpcx.register.common.Register", "getConsumerHostInfos"))
+          .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+              cn.ladd.grpcx.register.common.GetConsumerRequest.getDefaultInstance()))
+          .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+              cn.ladd.grpcx.register.common.GetConsumerResponse.getDefaultInstance()))
+          .setSchemaDescriptor(new RegisterMethodDescriptorSupplier("getConsumerHostInfos"))
+          .build();
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<cn.ladd.grpcx.register.common.GetDataRequest,
       cn.ladd.grpcx.register.common.GetDataResponse> METHOD_GET_NODE_DATA =
       io.grpc.MethodDescriptor.<cn.ladd.grpcx.register.common.GetDataRequest, cn.ladd.grpcx.register.common.GetDataResponse>newBuilder()
@@ -190,6 +203,13 @@ public final class RegisterGrpc {
 
     /**
      */
+    public void getConsumerHostInfos(cn.ladd.grpcx.register.common.GetConsumerRequest request,
+        io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetConsumerResponse> responseObserver) {
+      asyncUnimplementedUnaryCall(METHOD_GET_CONSUMER_HOST_INFOS, responseObserver);
+    }
+
+    /**
+     */
     public void getNodeData(cn.ladd.grpcx.register.common.GetDataRequest request,
         io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetDataResponse> responseObserver) {
       asyncUnimplementedUnaryCall(METHOD_GET_NODE_DATA, responseObserver);
@@ -239,6 +259,13 @@ public final class RegisterGrpc {
                 cn.ladd.grpcx.register.common.Empty,
                 cn.ladd.grpcx.register.common.GetAllServiceNamesResponse>(
                   this, METHODID_GET_ALL_SERVICE_NAMES)))
+          .addMethod(
+            METHOD_GET_CONSUMER_HOST_INFOS,
+            asyncUnaryCall(
+              new MethodHandlers<
+                cn.ladd.grpcx.register.common.GetConsumerRequest,
+                cn.ladd.grpcx.register.common.GetConsumerResponse>(
+                  this, METHODID_GET_CONSUMER_HOST_INFOS)))
           .addMethod(
             METHOD_GET_NODE_DATA,
             asyncUnaryCall(
@@ -318,6 +345,14 @@ public final class RegisterGrpc {
 
     /**
      */
+    public void getConsumerHostInfos(cn.ladd.grpcx.register.common.GetConsumerRequest request,
+        io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetConsumerResponse> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(METHOD_GET_CONSUMER_HOST_INFOS, getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
     public void getNodeData(cn.ladd.grpcx.register.common.GetDataRequest request,
         io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetDataResponse> responseObserver) {
       asyncUnaryCall(
@@ -383,6 +418,13 @@ public final class RegisterGrpc {
     public cn.ladd.grpcx.register.common.GetAllServiceNamesResponse getAllServiceNames(cn.ladd.grpcx.register.common.Empty request) {
       return blockingUnaryCall(
           getChannel(), METHOD_GET_ALL_SERVICE_NAMES, getCallOptions(), request);
+    }
+
+    /**
+     */
+    public cn.ladd.grpcx.register.common.GetConsumerResponse getConsumerHostInfos(cn.ladd.grpcx.register.common.GetConsumerRequest request) {
+      return blockingUnaryCall(
+          getChannel(), METHOD_GET_CONSUMER_HOST_INFOS, getCallOptions(), request);
     }
 
     /**
@@ -461,6 +503,14 @@ public final class RegisterGrpc {
 
     /**
      */
+    public com.google.common.util.concurrent.ListenableFuture<cn.ladd.grpcx.register.common.GetConsumerResponse> getConsumerHostInfos(
+        cn.ladd.grpcx.register.common.GetConsumerRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(METHOD_GET_CONSUMER_HOST_INFOS, getCallOptions()), request);
+    }
+
+    /**
+     */
     public com.google.common.util.concurrent.ListenableFuture<cn.ladd.grpcx.register.common.GetDataResponse> getNodeData(
         cn.ladd.grpcx.register.common.GetDataRequest request) {
       return futureUnaryCall(
@@ -474,7 +524,8 @@ public final class RegisterGrpc {
   private static final int METHODID_UNSUBSCRIBE = 3;
   private static final int METHODID_LOOKUP = 4;
   private static final int METHODID_GET_ALL_SERVICE_NAMES = 5;
-  private static final int METHODID_GET_NODE_DATA = 6;
+  private static final int METHODID_GET_CONSUMER_HOST_INFOS = 6;
+  private static final int METHODID_GET_NODE_DATA = 7;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -488,6 +539,7 @@ public final class RegisterGrpc {
       this.serviceImpl = serviceImpl;
       this.methodId = methodId;
     }
+
 
     @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
@@ -515,6 +567,10 @@ public final class RegisterGrpc {
         case METHODID_GET_ALL_SERVICE_NAMES:
           serviceImpl.getAllServiceNames((cn.ladd.grpcx.register.common.Empty) request,
               (io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetAllServiceNamesResponse>) responseObserver);
+          break;
+        case METHODID_GET_CONSUMER_HOST_INFOS:
+          serviceImpl.getConsumerHostInfos((cn.ladd.grpcx.register.common.GetConsumerRequest) request,
+              (io.grpc.stub.StreamObserver<cn.ladd.grpcx.register.common.GetConsumerResponse>) responseObserver);
           break;
         case METHODID_GET_NODE_DATA:
           serviceImpl.getNodeData((cn.ladd.grpcx.register.common.GetDataRequest) request,
@@ -587,6 +643,7 @@ public final class RegisterGrpc {
               .addMethod(METHOD_UNSUBSCRIBE)
               .addMethod(METHOD_LOOKUP)
               .addMethod(METHOD_GET_ALL_SERVICE_NAMES)
+              .addMethod(METHOD_GET_CONSUMER_HOST_INFOS)
               .addMethod(METHOD_GET_NODE_DATA)
               .build();
         }

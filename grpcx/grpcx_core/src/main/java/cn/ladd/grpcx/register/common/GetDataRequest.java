@@ -16,6 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private GetDataRequest() {
+    isCunsumer_ = false;
     serviceName_ = "";
   }
 
@@ -47,13 +48,18 @@ private static final long serialVersionUID = 0L;
             }
             break;
           }
-          case 10: {
+          case 8: {
+
+            isCunsumer_ = input.readBool();
+            break;
+          }
+          case 18: {
             java.lang.String s = input.readStringRequireUtf8();
 
             serviceName_ = s;
             break;
           }
-          case 18: {
+          case 26: {
             cn.ladd.grpcx.register.common.HostInfo.Builder subBuilder = null;
             if (hostInfo_ != null) {
               subBuilder = hostInfo_.toBuilder();
@@ -90,10 +96,19 @@ private static final long serialVersionUID = 0L;
             cn.ladd.grpcx.register.common.GetDataRequest.class, cn.ladd.grpcx.register.common.GetDataRequest.Builder.class);
   }
 
-  public static final int SERVICENAME_FIELD_NUMBER = 1;
+  public static final int ISCUNSUMER_FIELD_NUMBER = 1;
+  private boolean isCunsumer_;
+  /**
+   * <code>bool isCunsumer = 1;</code>
+   */
+  public boolean getIsCunsumer() {
+    return isCunsumer_;
+  }
+
+  public static final int SERVICENAME_FIELD_NUMBER = 2;
   private volatile java.lang.Object serviceName_;
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>string serviceName = 2;</code>
    */
   public java.lang.String getServiceName() {
     java.lang.Object ref = serviceName_;
@@ -108,7 +123,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string serviceName = 1;</code>
+   * <code>string serviceName = 2;</code>
    */
   public com.google.protobuf.ByteString
       getServiceNameBytes() {
@@ -124,22 +139,22 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int HOSTINFO_FIELD_NUMBER = 2;
+  public static final int HOSTINFO_FIELD_NUMBER = 3;
   private cn.ladd.grpcx.register.common.HostInfo hostInfo_;
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public boolean hasHostInfo() {
     return hostInfo_ != null;
   }
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public cn.ladd.grpcx.register.common.HostInfo getHostInfo() {
     return hostInfo_ == null ? cn.ladd.grpcx.register.common.HostInfo.getDefaultInstance() : hostInfo_;
   }
   /**
-   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+   * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
    */
   public cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder() {
     return getHostInfo();
@@ -157,11 +172,14 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
+    if (isCunsumer_ != false) {
+      output.writeBool(1, isCunsumer_);
+    }
     if (!getServiceNameBytes().isEmpty()) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 1, serviceName_);
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serviceName_);
     }
     if (hostInfo_ != null) {
-      output.writeMessage(2, getHostInfo());
+      output.writeMessage(3, getHostInfo());
     }
     unknownFields.writeTo(output);
   }
@@ -171,12 +189,16 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
+    if (isCunsumer_ != false) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeBoolSize(1, isCunsumer_);
+    }
     if (!getServiceNameBytes().isEmpty()) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, serviceName_);
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, serviceName_);
     }
     if (hostInfo_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, getHostInfo());
+        .computeMessageSize(3, getHostInfo());
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -194,6 +216,8 @@ private static final long serialVersionUID = 0L;
     cn.ladd.grpcx.register.common.GetDataRequest other = (cn.ladd.grpcx.register.common.GetDataRequest) obj;
 
     boolean result = true;
+    result = result && (getIsCunsumer()
+        == other.getIsCunsumer());
     result = result && getServiceName()
         .equals(other.getServiceName());
     result = result && (hasHostInfo() == other.hasHostInfo());
@@ -212,6 +236,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
+    hash = (37 * hash) + ISCUNSUMER_FIELD_NUMBER;
+    hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+        getIsCunsumer());
     hash = (37 * hash) + SERVICENAME_FIELD_NUMBER;
     hash = (53 * hash) + getServiceName().hashCode();
     if (hasHostInfo()) {
@@ -347,6 +374,8 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
+      isCunsumer_ = false;
+
       serviceName_ = "";
 
       if (hostInfoBuilder_ == null) {
@@ -377,6 +406,7 @@ private static final long serialVersionUID = 0L;
 
     public cn.ladd.grpcx.register.common.GetDataRequest buildPartial() {
       cn.ladd.grpcx.register.common.GetDataRequest result = new cn.ladd.grpcx.register.common.GetDataRequest(this);
+      result.isCunsumer_ = isCunsumer_;
       result.serviceName_ = serviceName_;
       if (hostInfoBuilder_ == null) {
         result.hostInfo_ = hostInfo_;
@@ -424,6 +454,9 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(cn.ladd.grpcx.register.common.GetDataRequest other) {
       if (other == cn.ladd.grpcx.register.common.GetDataRequest.getDefaultInstance()) return this;
+      if (other.getIsCunsumer() != false) {
+        setIsCunsumer(other.getIsCunsumer());
+      }
       if (!other.getServiceName().isEmpty()) {
         serviceName_ = other.serviceName_;
         onChanged();
@@ -458,9 +491,35 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
+    private boolean isCunsumer_ ;
+    /**
+     * <code>bool isCunsumer = 1;</code>
+     */
+    public boolean getIsCunsumer() {
+      return isCunsumer_;
+    }
+    /**
+     * <code>bool isCunsumer = 1;</code>
+     */
+    public Builder setIsCunsumer(boolean value) {
+      
+      isCunsumer_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>bool isCunsumer = 1;</code>
+     */
+    public Builder clearIsCunsumer() {
+      
+      isCunsumer_ = false;
+      onChanged();
+      return this;
+    }
+
     private java.lang.Object serviceName_ = "";
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>string serviceName = 2;</code>
      */
     public java.lang.String getServiceName() {
       java.lang.Object ref = serviceName_;
@@ -475,7 +534,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>string serviceName = 2;</code>
      */
     public com.google.protobuf.ByteString
         getServiceNameBytes() {
@@ -491,7 +550,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>string serviceName = 2;</code>
      */
     public Builder setServiceName(
         java.lang.String value) {
@@ -504,7 +563,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>string serviceName = 2;</code>
      */
     public Builder clearServiceName() {
       
@@ -513,7 +572,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string serviceName = 1;</code>
+     * <code>string serviceName = 2;</code>
      */
     public Builder setServiceNameBytes(
         com.google.protobuf.ByteString value) {
@@ -531,13 +590,13 @@ private static final long serialVersionUID = 0L;
     private com.google.protobuf.SingleFieldBuilderV3<
         cn.ladd.grpcx.register.common.HostInfo, cn.ladd.grpcx.register.common.HostInfo.Builder, cn.ladd.grpcx.register.common.HostInfoOrBuilder> hostInfoBuilder_;
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public boolean hasHostInfo() {
       return hostInfoBuilder_ != null || hostInfo_ != null;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfo getHostInfo() {
       if (hostInfoBuilder_ == null) {
@@ -547,7 +606,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder setHostInfo(cn.ladd.grpcx.register.common.HostInfo value) {
       if (hostInfoBuilder_ == null) {
@@ -563,7 +622,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder setHostInfo(
         cn.ladd.grpcx.register.common.HostInfo.Builder builderForValue) {
@@ -577,7 +636,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder mergeHostInfo(cn.ladd.grpcx.register.common.HostInfo value) {
       if (hostInfoBuilder_ == null) {
@@ -595,7 +654,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public Builder clearHostInfo() {
       if (hostInfoBuilder_ == null) {
@@ -609,7 +668,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfo.Builder getHostInfoBuilder() {
       
@@ -617,7 +676,7 @@ private static final long serialVersionUID = 0L;
       return getHostInfoFieldBuilder().getBuilder();
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     public cn.ladd.grpcx.register.common.HostInfoOrBuilder getHostInfoOrBuilder() {
       if (hostInfoBuilder_ != null) {
@@ -628,7 +687,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 2;</code>
+     * <code>.cn.ladd.grpcx.register.common.HostInfo hostInfo = 3;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         cn.ladd.grpcx.register.common.HostInfo, cn.ladd.grpcx.register.common.HostInfo.Builder, cn.ladd.grpcx.register.common.HostInfoOrBuilder> 

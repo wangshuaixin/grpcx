@@ -8,9 +8,9 @@ public interface BeatRequestOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>bool isCunsumer = 1;</code>
+   * <code>bool isConsumer = 1;</code>
    */
-  boolean getIsCunsumer();
+  boolean getIsConsumer();
 
   /**
    * <code>repeated string serviceNames = 2;</code>

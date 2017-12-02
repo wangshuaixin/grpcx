@@ -36,7 +36,7 @@ public class ProviderProxy {
 	public void beat(ArrayList<String> serviceNames,HostInfo hostInfo)
 	{
 		BeatRequest beatRequest=BeatRequest.newBuilder()
-									.setIsCunsumer(false)
+									.setIsConsumer(false)
 									.addAllServiceNames(serviceNames)
 									.setHostInfo(hostInfo)
 									.build();

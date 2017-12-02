@@ -184,7 +184,7 @@ public final class HeartBeatGrpc {
     }
 
 
-
+    @java.lang.SuppressWarnings("unchecked")
     public void invoke(Req request, io.grpc.stub.StreamObserver<Resp> responseObserver) {
       switch (methodId) {
         case METHODID_BEAT:

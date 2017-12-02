@@ -16,7 +16,7 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private BeatRequest() {
-    isCunsumer_ = false;
+    isConsumer_ = false;
     serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
   }
 
@@ -50,7 +50,7 @@ private static final long serialVersionUID = 0L;
           }
           case 8: {
 
-            isCunsumer_ = input.readBool();
+            isConsumer_ = input.readBool();
             break;
           }
           case 18: {
@@ -103,13 +103,13 @@ private static final long serialVersionUID = 0L;
   }
 
   private int bitField0_;
-  public static final int ISCUNSUMER_FIELD_NUMBER = 1;
-  private boolean isCunsumer_;
+  public static final int ISCONSUMER_FIELD_NUMBER = 1;
+  private boolean isConsumer_;
   /**
-   * <code>bool isCunsumer = 1;</code>
+   * <code>bool isConsumer = 1;</code>
    */
-  public boolean getIsCunsumer() {
-    return isCunsumer_;
+  public boolean getIsConsumer() {
+    return isConsumer_;
   }
 
   public static final int SERVICENAMES_FIELD_NUMBER = 2;
@@ -174,8 +174,8 @@ private static final long serialVersionUID = 0L;
 
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (isCunsumer_ != false) {
-      output.writeBool(1, isCunsumer_);
+    if (isConsumer_ != false) {
+      output.writeBool(1, isConsumer_);
     }
     for (int i = 0; i < serviceNames_.size(); i++) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 2, serviceNames_.getRaw(i));
@@ -191,9 +191,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (isCunsumer_ != false) {
+    if (isConsumer_ != false) {
       size += com.google.protobuf.CodedOutputStream
-        .computeBoolSize(1, isCunsumer_);
+        .computeBoolSize(1, isConsumer_);
     }
     {
       int dataSize = 0;
@@ -223,8 +223,8 @@ private static final long serialVersionUID = 0L;
     cn.ladd.grpcx.register.common.BeatRequest other = (cn.ladd.grpcx.register.common.BeatRequest) obj;
 
     boolean result = true;
-    result = result && (getIsCunsumer()
-        == other.getIsCunsumer());
+    result = result && (getIsConsumer()
+        == other.getIsConsumer());
     result = result && getServiceNamesList()
         .equals(other.getServiceNamesList());
     result = result && (hasHostInfo() == other.hasHostInfo());
@@ -243,9 +243,9 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    hash = (37 * hash) + ISCUNSUMER_FIELD_NUMBER;
+    hash = (37 * hash) + ISCONSUMER_FIELD_NUMBER;
     hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-        getIsCunsumer());
+        getIsConsumer());
     if (getServiceNamesCount() > 0) {
       hash = (37 * hash) + SERVICENAMES_FIELD_NUMBER;
       hash = (53 * hash) + getServiceNamesList().hashCode();
@@ -383,7 +383,7 @@ private static final long serialVersionUID = 0L;
     }
     public Builder clear() {
       super.clear();
-      isCunsumer_ = false;
+      isConsumer_ = false;
 
       serviceNames_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       bitField0_ = (bitField0_ & ~0x00000002);
@@ -417,7 +417,7 @@ private static final long serialVersionUID = 0L;
       cn.ladd.grpcx.register.common.BeatRequest result = new cn.ladd.grpcx.register.common.BeatRequest(this);
       int from_bitField0_ = bitField0_;
       int to_bitField0_ = 0;
-      result.isCunsumer_ = isCunsumer_;
+      result.isConsumer_ = isConsumer_;
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         serviceNames_ = serviceNames_.getUnmodifiableView();
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -470,8 +470,8 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(cn.ladd.grpcx.register.common.BeatRequest other) {
       if (other == cn.ladd.grpcx.register.common.BeatRequest.getDefaultInstance()) return this;
-      if (other.getIsCunsumer() != false) {
-        setIsCunsumer(other.getIsCunsumer());
+      if (other.getIsConsumer() != false) {
+        setIsConsumer(other.getIsConsumer());
       }
       if (!other.serviceNames_.isEmpty()) {
         if (serviceNames_.isEmpty()) {
@@ -514,28 +514,28 @@ private static final long serialVersionUID = 0L;
     }
     private int bitField0_;
 
-    private boolean isCunsumer_ ;
+    private boolean isConsumer_ ;
     /**
-     * <code>bool isCunsumer = 1;</code>
+     * <code>bool isConsumer = 1;</code>
      */
-    public boolean getIsCunsumer() {
-      return isCunsumer_;
+    public boolean getIsConsumer() {
+      return isConsumer_;
     }
     /**
-     * <code>bool isCunsumer = 1;</code>
+     * <code>bool isConsumer = 1;</code>
      */
-    public Builder setIsCunsumer(boolean value) {
+    public Builder setIsConsumer(boolean value) {
       
-      isCunsumer_ = value;
+      isConsumer_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>bool isCunsumer = 1;</code>
+     * <code>bool isConsumer = 1;</code>
      */
-    public Builder clearIsCunsumer() {
+    public Builder clearIsConsumer() {
       
-      isCunsumer_ = false;
+      isConsumer_ = false;
       onChanged();
       return this;
     }

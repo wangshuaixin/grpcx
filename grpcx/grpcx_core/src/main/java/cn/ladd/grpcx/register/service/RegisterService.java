@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import cn.ladd.grpcx.register.Register;
 import cn.ladd.grpcx.register.common.Empty;
 import cn.ladd.grpcx.register.common.GetAllServiceNamesResponse;
+import cn.ladd.grpcx.register.common.GetConsumerRequest;
+import cn.ladd.grpcx.register.common.GetConsumerResponse;
 import cn.ladd.grpcx.register.common.GetDataRequest;
 import cn.ladd.grpcx.register.common.GetDataResponse;
 import cn.ladd.grpcx.register.common.HostInfo;
@@ -71,7 +73,6 @@ public class RegisterService extends RegisterImplBase{
 	@Override
 	public void lookup(LookupRequest request, StreamObserver<LookupResponse> responseObserver) {
 		// TODO Auto-generated method stub
-		
 		String serviceName=request.getServiceName();
 		ArrayList<HostInfo> hostInfos=Register.lookup(serviceName);
 		LookupResponse result=LookupResponse.newBuilder()
@@ -95,12 +96,25 @@ public class RegisterService extends RegisterImplBase{
 	@Override
 	public void getNodeData(GetDataRequest request, StreamObserver<GetDataResponse> responseObserver) {
 		// TODO Auto-generated method stub
+		boolean isConsumer=request.getIsCunsumer();
 		String serviceName=request.getServiceName();
 		HostInfo hostInfo=request.getHostInfo();
-		String nodeData=Register.getNodeData(serviceName, hostInfo);
+		String nodeData=Register.getNodeData(isConsumer,serviceName, hostInfo);
 		GetDataResponse result=GetDataResponse.newBuilder()
 								.setNodeData(nodeData)
 								.build();
+		responseObserver.onNext(result);
+		responseObserver.onCompleted();
+	}
+	
+	@Override
+	public void getConsumerHostInfos(GetConsumerRequest request, StreamObserver<GetConsumerResponse> responseObserver) {
+		// TODO Auto-generated method stub
+		String serviceName=request.getServiceName();
+		ArrayList<HostInfo> consumerHostInfos=Register.getConsumerHostInfos(serviceName);
+		GetConsumerResponse result=GetConsumerResponse.newBuilder()
+									.addAllHostInfos(consumerHostInfos)
+									.build();
 		responseObserver.onNext(result);
 		responseObserver.onCompleted();
 	}
