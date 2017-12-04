@@ -8,25 +8,31 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import cn.ladd.grpcx.register.common.HostInfo;
 
-@Controller
+@RestController
 public class MonitorController {
 	
 	@Autowired
 	MonitorProxy monitorProxy;
 	
 	@RequestMapping(value="",method=RequestMethod.GET)
-	public @ResponseBody ArrayList<String> index()
+	public ArrayList<String> index()
 	{
 		return monitorProxy.getAllServiceNames();
 	}
 	
 	@RequestMapping(value="/{serviceName}",method=RequestMethod.GET)
-	public @ResponseBody ArrayList<String> lookup(@PathVariable("serviceName") String serviceName)
+	public ServiceSummary lookup(@PathVariable("serviceName") String serviceName)
 	{
-		return monitorProxy.lookup(serviceName);
+		
+		ServiceSummary serviceSummary=new ServiceSummary();
+		serviceSummary.setServiceName(serviceName);
+		serviceSummary.setProviderHostInfos(monitorProxy.lookup(serviceName));
+		serviceSummary.setConsumerHostInfos(monitorProxy.getConsumerHostInfos(serviceName));
+		return serviceSummary;
 	}
 
 }

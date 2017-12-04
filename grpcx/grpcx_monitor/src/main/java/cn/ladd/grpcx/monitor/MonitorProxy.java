@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.catalina.util.ServerInfo;
 
 import cn.ladd.grpcx.register.common.Empty;
+import cn.ladd.grpcx.register.common.GetConsumerRequest;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.common.LookupRequest;
 import cn.ladd.grpcx.register.common.RegisterGrpc;
@@ -51,6 +52,19 @@ public class MonitorProxy {
 		for(Object object:hostInfos)
 		{
 			result.add(HostInfoFormatter.getFormatString(((HostInfo) object)));
+		}
+		return result;
+	}
+	
+	public ArrayList<String> getConsumerHostInfos(String serviceName)
+	{
+		GetConsumerRequest request=GetConsumerRequest.newBuilder()
+									.setServiceName(serviceName)
+									.build();
+		ArrayList<String> result=new ArrayList<String>();
+		for(Object object:registerBlockingStub.getConsumerHostInfos(request).getHostInfosList())
+		{
+			result.add(HostInfoFormatter.getFormatString((HostInfo) object));
 		}
 		return result;
 	}
