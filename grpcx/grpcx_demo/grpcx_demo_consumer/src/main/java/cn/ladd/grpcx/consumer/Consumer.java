@@ -11,6 +11,7 @@ import cn.ladd.grpcx.register.demo.add.AddProxy;
 import cn.ladd.grpcx.register.service.ConsumerRefreshService;
 import cn.ladd.grpcx.register.service.HeartbeatService;
 import cn.ladd.grpcx.register.service.RegisterService;
+import cn.ladd.grpcx.sensor.SysInfoSensorThread;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -35,6 +36,9 @@ public class Consumer {
 		serviceNames.add("cal");
 		ConsumerHeartbeatThread consumerHeartbeatThread=new ConsumerHeartbeatThread(serviceNames);
 		consumerHeartbeatThread.start();
+		
+		SysInfoSensorThread sysInfoSensorThread=new SysInfoSensorThread();
+		sysInfoSensorThread.start();
 		
 		Thread.sleep(10000*1000);
 	}

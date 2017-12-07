@@ -2,6 +2,9 @@ package cn.ladd.grpcx.sensor;
 
 import java.util.Arrays;
 
+import cn.ladd.grpcx.monitor.ServiceInfo;
+import oshi.SystemInfo;
+import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.NetworkParams;
 
 public class GetSysInfoUtil {
@@ -9,12 +12,16 @@ public class GetSysInfoUtil {
 		
 	}
 	
-    private static void printNetworkParameters(NetworkParams networkParams) {
-        System.out.println("Network parameters:");
-        System.out.format(" Host name: %s%n", networkParams.getHostName());
-        System.out.format(" Domain name: %s%n", networkParams.getDomainName());
-        System.out.format(" DNS servers: %s%n", Arrays.toString(networkParams.getDnsServers()));
-        System.out.format(" IPv4 Gateway: %s%n", networkParams.getIpv4DefaultGateway());
-        System.out.format(" IPv6 Gateway: %s%n", networkParams.getIpv6DefaultGateway());
-    }
+	public static ServiceInfo getServiceInfo()
+	{
+		SystemInfo si = new SystemInfo();
+		HardwareAbstractionLayer hal = si.getHardware();
+		ServiceInfo serviceInfo=ServiceInfo.newBuilder()
+								.setHostName(si.getOperatingSystem().getNetworkParams().getHostName())
+								.setTotalRam(String.valueOf(si.getHardware().getMemory().getAvailable()))
+								.build();
+		return serviceInfo;
+	}
+	
+    
 }

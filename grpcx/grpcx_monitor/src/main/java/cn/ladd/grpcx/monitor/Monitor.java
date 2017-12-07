@@ -8,6 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Monitor {
 	
 	public static void main(String[] args) {
+		
+		SysInfoMonitorThread sysInfoMonitorThread=new SysInfoMonitorThread();
+		sysInfoMonitorThread.start();
+		
 		SpringApplication.run(Monitor.class, args);
 	}
 

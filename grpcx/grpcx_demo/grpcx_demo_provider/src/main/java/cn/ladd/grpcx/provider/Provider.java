@@ -7,6 +7,7 @@ import java.util.Arrays;
 import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.demo.add.AddService;
+import cn.ladd.grpcx.sensor.SysInfoSensorThread;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
 
@@ -26,6 +27,10 @@ public class Provider {
 		serviceNames.add("cal");
 		heartbeatClientProxy.addService("cal", Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
 		new ProviderHeartbeatThread(heartbeatClientProxy,serviceNames,localHostInfo).start();
+		
+		SysInfoSensorThread sysInfoSensorThread=new SysInfoSensorThread();
+		sysInfoSensorThread.start();
+		
 		
 		Server server=ServerBuilder.forPort(Config.getLocalPort())
 						.addService(new AddService())

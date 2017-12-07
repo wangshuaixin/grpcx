@@ -1,4 +1,4 @@
-package cn.ladd.grpcx.register.service;
+package cn.ladd.grpcx.monitor;
 
 import org.apache.log4j.Logger;
 
