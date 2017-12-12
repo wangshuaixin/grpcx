@@ -40,6 +40,5 @@ public class Consumer {
 		SysInfoSensorThread sysInfoSensorThread=new SysInfoSensorThread();
 		sysInfoSensorThread.start();
 		
-		Thread.sleep(10000*1000);
 	}
 }
