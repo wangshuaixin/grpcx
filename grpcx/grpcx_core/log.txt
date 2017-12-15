@@ -1,5 +1,0 @@
-2017-12-02 21:11:25,166 INFO  [cn.ladd.grpcx.config.Config] - 127.0.0.1
-2017-12-02 21:15:13,647 INFO  [cn.ladd.grpcx.config.Config] - localIP is 127.0.0.1
-2017-12-02 21:15:13,648 INFO  [cn.ladd.grpcx.config.Config] - 127.0.0.1
-2017-12-02 21:21:02,653 INFO  [cn.ladd.grpcx.config.Config] - Load ip:port is null:null
-2017-12-02 21:21:03,191 INFO  [cn.ladd.grpcx.register.Register] - Register started!

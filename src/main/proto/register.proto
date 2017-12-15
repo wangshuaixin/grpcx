@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true; 
+
+package cn.ladd.grpcx.register.common;
+
+
+message HostInfo {
+
+  string ip = 1;
+  string port = 2;
+}
+
+message BeatRequest {
+
+  bool isCunsumer=1;
+  repeated string serviceNames = 2;
+  HostInfo hostInfo = 3;
+}
+
+message ServiceRequest {
+
+  string serviceName = 1;
+  HostInfo hostInfo = 2;
+}
+
+message SubscribeRequest {
+
+  string serviceName = 1;
+  HostInfo hostInfo = 2;
+}
+
+
+message LookupRequest {
+
+  string serviceName = 1;
+}
+
+message GetConsumerRequest {
+
+  string serviceName = 1;
+}
+
+message GetDataRequest {
+
+  bool isCunsumer=1;
+  string serviceName = 2;
+  HostInfo hostInfo = 3;
+}
+
+message RefreshRequest {
+
+  string serviceName = 1;
+  repeated HostInfo hostInfos = 2;
+}
+
+message Empty {
+
+}
+
+
+
+message LookupResponse {
+
+  repeated HostInfo hostInfos = 1;
+}
+
+message GetConsumerResponse {
+
+  repeated HostInfo hostInfos = 1;
+}
+
+message GetAllServiceNamesResponse {
+
+  repeated string serviceNames = 1;
+}
+
+message GetDataResponse {
+
+  string nodeData = 1;
+}
+
+service HeartBeat {
+
+	rpc beat(BeatRequest) returns (Empty){}
+}
+
+
+service Register {
+
+	rpc addService(ServiceRequest) returns (Empty){}
+	
+	rpc removeService(ServiceRequest) returns (Empty){}
+	
+	rpc subscribe(SubscribeRequest) returns (Empty){}
+	
+	rpc unsubscribe(SubscribeRequest) returns (Empty){}
+	
+	rpc lookup(LookupRequest) returns (LookupResponse){}
+	
+	rpc getAllServiceNames(Empty) returns (GetAllServiceNamesResponse){}
+	
+	rpc getConsumerHostInfos(GetConsumerRequest) returns (GetConsumerResponse){}
+	
+	rpc getNodeData(GetDataRequest) returns (GetDataResponse){}
+}
+
+service RefreshServiceInfos {
+
+	rpc refresh(RefreshRequest) returns (Empty){}
+}
+
+
+
