@@ -1,6 +1,14 @@
 language: java
-sudo: false
+sudo: required
 
 jdk:
   - oraclejdk8
   - openjdk7
+  
+services:
+  - docker
+
+before_install:
+  - docker pull zookeeper
+  - docker run --name some-zookeeper -p 127.0.0.1:2181:2181 --restart always -d zookeeper
+  - docker ps -a
