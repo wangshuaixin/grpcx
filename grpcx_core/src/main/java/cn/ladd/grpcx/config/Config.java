@@ -26,7 +26,10 @@ public class Config {
 		properties=new Properties();
 		try {
 			InputStream inputStream=Config.class.getClassLoader().getResourceAsStream(propertiesFileName);
-			properties.load(inputStream);
+			if(inputStream!=null&&inputStream.available()>0)
+			{
+				properties.load(inputStream);
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
