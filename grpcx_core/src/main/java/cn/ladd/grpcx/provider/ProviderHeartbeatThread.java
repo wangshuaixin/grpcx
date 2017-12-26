@@ -18,6 +18,18 @@ public class ProviderHeartbeatThread extends Thread{
 	int heartbeatInterval;
 	boolean stopped;
 	
+	public ProviderHeartbeatThread() {
+		// TODO Auto-generated constructor stub
+		this.providerProxy=new ProviderProxy(Config.getRegisterIP(), Config.getRegisterPort());
+		this.serviceNames=Config.getServiceNameList();
+		this.hostInfo=HostInfo.newBuilder()
+				.setIp(Config.getLocalIP())
+				.setPort(String.valueOf(Config.getLocalPort()))
+				.build();
+		this.heartbeatInterval=Config.getHeartbeatInterval();
+		this.stopped=false;
+	}
+	
 	public ProviderHeartbeatThread(ProviderProxy providerProxy,ArrayList<String> serviceNames,HostInfo hostInfo) {
 		// TODO Auto-generated constructor stub
 		this.providerProxy=providerProxy;

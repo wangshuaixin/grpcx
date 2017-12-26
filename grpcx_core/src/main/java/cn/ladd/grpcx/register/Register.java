@@ -24,6 +24,7 @@ import cn.ladd.grpcx.register.server.ConsumerRefershProxy;
  *
  */
 public class Register {
+	static Logger logger=Logger.getLogger(Register.class);
 	static CuratorFramework client;
 	static
 	{
@@ -235,6 +236,43 @@ public class Register {
 		}
 	}
 	
+	/**
+	 * clear all provider and consumer nodes
+	 * notation: Be careful to use this method
+	 */
+	public static void clearAllProviderAndConsumer()
+	{
+		ArrayList<String> serviceNameList=getAllServiceNames();
+		String consumerDirPath;
+		String serviceDirPath;
+		try {
+			for(String serviceName:serviceNameList)
+			{
+				consumerDirPath="/"+serviceName+"/consumers";
+				serviceDirPath="/"+serviceName+"/services";
+				if(client.checkExists().forPath(consumerDirPath)!=null)
+				{
+					for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+consumerDirPath))
+					{
+						client.delete().forPath(consumerDirPath+"/"+childNode);
+					}
+				}
+				if(client.checkExists().forPath(serviceDirPath)!=null)
+				{
+					for(String childNode:ZKPaths.getSortedChildren(client.getZookeeperClient().getZooKeeper(), "/registor"+serviceDirPath))
+					{
+						client.delete().forPath(serviceDirPath+"/"+childNode);
+					}
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.error(e.getMessage());
+		}
+		
+
+	}
+	
 	public static void main(String[] args) {
 //		ServerInfo ieClientUrlInfo=new ServerInfo("102.168.0.0:80");
 //		ServerInfo chromeClientUrlInfo=new ServerInfo("101.168.0.0:80");
@@ -253,7 +291,7 @@ public class Register {
 //			System.out.println("add client url info"+addClientUrlInfo.toString());
 //		}
 //		removeService("pay", HostInfo.newBuilder().setIp("192.198.0.0").setPort("80").build());;
-		Logger logger=Logger.getLogger(Register.class);
+		clearAllProviderAndConsumer();
 		logger.info("Register started!");
 		for(String serviceName:getAllServiceNames())
 		{

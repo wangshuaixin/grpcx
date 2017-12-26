@@ -1,10 +1,13 @@
-package cn.ladd.grpcx.provider;
+package cn.ladd.grpcx.demo;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import cn.ladd.grpcx.config.Config;
+import cn.ladd.grpcx.provider.ProviderHeartbeatThread;
+import cn.ladd.grpcx.provider.ProviderProxy;
+import cn.ladd.grpcx.provider.ProviderServiceRegitster;
 import cn.ladd.grpcx.register.common.HostInfo;
 import cn.ladd.grpcx.register.demo.add.AddService;
 import cn.ladd.grpcx.sensor.SysInfoSensorThread;
@@ -18,33 +21,22 @@ import io.grpc.ServerBuilder;
  */
 public class Provider {
 	public static void main(String[] args) throws InterruptedException {
-		HostInfo localHostInfo=HostInfo.newBuilder()
-							.setIp(Config.getLocalIP())
-							.setPort(String.valueOf(Config.getLocalPort()))
-							.build();
-		ProviderProxy heartbeatClientProxy=new ProviderProxy(Config.getRegisterIP(), Config.getRegisterPort());
-		ArrayList<String> serviceNames=new ArrayList<String>();
-		serviceNames.add("cal");
-		heartbeatClientProxy.addService("cal", Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
-		new ProviderHeartbeatThread(heartbeatClientProxy,serviceNames,localHostInfo).start();
-		
-		SysInfoSensorThread sysInfoSensorThread=new SysInfoSensorThread();
-		sysInfoSensorThread.start();
-		
 		
 		Server server=ServerBuilder.forPort(Config.getLocalPort())
 						.addService(new AddService())
 						.build();
 		try {
 			server.start();
+			
+			ProviderServiceRegitster.defaultServiceRegistry();
+			new ProviderHeartbeatThread().start();	
+			new SysInfoSensorThread().start();
+			
 			server.awaitTermination();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 	}
 }

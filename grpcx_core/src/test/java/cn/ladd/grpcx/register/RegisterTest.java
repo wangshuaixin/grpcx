@@ -16,6 +16,7 @@ public class RegisterTest {
 	@Before
 	public void setUp()
 	{
+		Register.clearAllProviderAndConsumer();
 		calHostInfo=HostInfo.newBuilder()
 								.setIp("192.168.0.1")
 								.setPort("8090")

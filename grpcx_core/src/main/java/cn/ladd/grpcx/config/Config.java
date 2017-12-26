@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -133,6 +134,21 @@ public class Config {
 			return Integer.valueOf(localPort);
 		}
 		return DEFAULT_LOCAL_PORT;
+	}
+	
+	
+	public static ArrayList<String> getServiceNameList()
+	{
+		String serviceNames=getValue("service.names");
+		ArrayList<String> serviceNameList=new ArrayList<String>();
+		if(serviceNames!=null&&!serviceNames.isEmpty())
+		{
+			for(String serviceName:serviceNames.split(","))
+			{
+				serviceNameList.add(serviceName);
+			}
+		}
+		return serviceNameList;
 	}
 	
 	public static void main(String[] args) {
