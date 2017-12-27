@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cn.ladd.grpcx.config.Config;
+import cn.ladd.grpcx.provider.ProviderBootstrap;
 import cn.ladd.grpcx.provider.ProviderHeartbeatThread;
 import cn.ladd.grpcx.provider.ProviderProxy;
 import cn.ladd.grpcx.provider.ProviderServiceRegitster;
@@ -28,9 +29,7 @@ public class Provider {
 		try {
 			server.start();
 			
-			ProviderServiceRegitster.defaultServiceRegistry();
-			new ProviderHeartbeatThread().start();	
-			new SysInfoSensorThread().start();
+			ProviderBootstrap.init();
 			
 			server.awaitTermination();
 		} catch (IOException e) {

@@ -1,4 +1,4 @@
-package cn.ladd.grpcx;
+package cn.ladd.grpcx.demo;
 
 /**
  * Hello world!

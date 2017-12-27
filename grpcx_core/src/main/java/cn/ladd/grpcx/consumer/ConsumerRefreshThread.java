@@ -25,7 +25,6 @@ public class ConsumerRefreshThread extends Thread{
 				.build();
 		try {
 			server.start();
-			
 			server.awaitTermination();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block

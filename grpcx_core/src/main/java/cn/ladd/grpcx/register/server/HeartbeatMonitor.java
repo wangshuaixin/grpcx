@@ -12,7 +12,7 @@ import cn.ladd.grpcx.register.common.util.HostInfoFormatter;
  * @author ladd
  * @date 20171125
  */
-public class HeartbeatMonitor implements Runnable{
+public class HeartbeatMonitor extends Thread{
 	
 	static Logger logger=Logger.getLogger(HeartbeatMonitor.class);
 	int heartbeatOverdue;

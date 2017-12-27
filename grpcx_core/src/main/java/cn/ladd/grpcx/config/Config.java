@@ -151,6 +151,21 @@ public class Config {
 		return serviceNameList;
 	}
 	
+	public static ArrayList<String> getRefServiceNameList()
+	{
+		String refServiceNames=getValue("ref.service.names");
+		ArrayList<String> refServiceNameList=new ArrayList<String>();
+		if(refServiceNames!=null&&!refServiceNames.isEmpty())
+		{
+			for(String refServiceName:refServiceNames.split(","))
+			{
+				refServiceNameList.add(refServiceName);
+			}
+		}
+		return refServiceNameList;
+	}
+	
+	
 	public static void main(String[] args) {
 		logger.info(getLocalIP());
 	}
