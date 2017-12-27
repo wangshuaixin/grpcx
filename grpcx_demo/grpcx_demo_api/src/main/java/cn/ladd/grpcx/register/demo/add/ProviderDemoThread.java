@@ -1,10 +1,9 @@
-package cn.ladd.grpcx;
+package cn.ladd.grpcx.register.demo.add;
 
 import java.io.IOException;
 
 import cn.ladd.grpcx.config.Config;
 import cn.ladd.grpcx.provider.ProviderBootstrap;
-import cn.ladd.grpcx.register.demo.add.AddService;
 import cn.ladd.grpcx.sensor.BaseThread;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;

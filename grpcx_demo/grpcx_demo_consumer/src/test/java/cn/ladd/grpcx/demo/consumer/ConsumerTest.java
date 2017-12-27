@@ -8,9 +8,9 @@ import cn.ladd.grpcx.config.Config;
 
 public class ConsumerTest {
 
-	@Test
-	public void test() {
-		assertTrue(Config.getRefServiceNameList().contains("cal"));
-	}
+//	@Test
+////	public void test() {
+//		assertTrue(Config.getRefServiceNameList().contains("cal"));
+//	}
 
 }
