@@ -24,7 +24,7 @@ public class ProviderHeartbeatThread extends Thread{
 		this.serviceNames=Config.getServiceNameList();
 		this.hostInfo=HostInfo.newBuilder()
 				.setIp(Config.getLocalIP())
-				.setPort(String.valueOf(Config.getLocalPort()))
+				.setPort(String.valueOf(Config.getLocalPortProvider()))
 				.build();
 		this.heartbeatInterval=Config.getHeartbeatInterval();
 		this.stopped=false;

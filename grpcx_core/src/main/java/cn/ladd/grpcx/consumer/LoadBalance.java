@@ -53,7 +53,7 @@ public class LoadBalance {
 				logger.info(serviceName+" service hostinfo:"+HostInfoFormatter.getFormatString(hostInfo));
 			}
 			refreshHostInfos(serviceName, serviceHostInfos);
-			consumerProxy.subscribe(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
+			consumerProxy.subscribe(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPortConsumer()));
 		}
 		
 		if(LOADBALANCE_ROUNDRONBIN.equals(LOADBALANCE_STRATEGY))

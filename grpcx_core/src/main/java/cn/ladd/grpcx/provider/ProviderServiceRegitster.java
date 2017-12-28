@@ -12,7 +12,7 @@ public class ProviderServiceRegitster {
 		ProviderProxy providerProxy=new ProviderProxy(Config.getRegisterIP(), Config.getRegisterPort());
 		for(String serviceName:Config.getServiceNameList())
 		{
-			providerProxy.addService(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
+			providerProxy.addService(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPortProvider()));
 		}
 	}
 	
@@ -22,6 +22,6 @@ public class ProviderServiceRegitster {
 		ProviderProxy providerProxy=new ProviderProxy(Config.getRegisterIP(), Config.getRegisterPort());
 		ArrayList<String> serviceNames=new ArrayList<String>();
 		serviceNames.add(serviceName);
-		providerProxy.addService(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
+		providerProxy.addService(serviceName, Config.getLocalIP(), String.valueOf(Config.getLocalPortProvider()));
 	}
 }

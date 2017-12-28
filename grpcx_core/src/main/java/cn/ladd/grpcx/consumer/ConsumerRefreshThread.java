@@ -20,7 +20,7 @@ public class ConsumerRefreshThread extends Thread{
 	public void run() {
 		// TODO Auto-generated method stub
 		Server server=ServerBuilder
-				.forPort(Config.getLocalPort())
+				.forPort(Config.getLocalPortConsumer())
 				.addService(new ConsumerRefreshService())
 				.build();
 		try {

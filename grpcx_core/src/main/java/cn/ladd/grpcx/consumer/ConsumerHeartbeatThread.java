@@ -24,7 +24,7 @@ public class ConsumerHeartbeatThread extends Thread{
 		this.serviceNames=serviceNames;
 		this.localHostInfo=HostInfo.newBuilder()
 							.setIp(Config.getLocalIP())
-							.setPort(String.valueOf(Config.getLocalPort()))
+							.setPort(String.valueOf(Config.getLocalPortConsumer()))
 							.build();
 		this.heartbeatInterval=Config.getHeartbeatInterval();
 		this.stopped=false;

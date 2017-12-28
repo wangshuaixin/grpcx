@@ -17,15 +17,15 @@ public class SysInfoMonitorThread extends Thread{
 		// TODO Auto-generated method stub
 		HostInfo localHostInfo=HostInfo.newBuilder()
 				.setIp(Config.getLocalIP())
-				.setPort(String.valueOf(Config.getLocalPort()))
+				.setPort(String.valueOf(Config.getLocalPortMonitor()))
 				.build();
 		ProviderProxy heartbeatClientProxy=new ProviderProxy(Config.getRegisterIP(), Config.getRegisterPort());
 		ArrayList<String> serviceNames=new ArrayList<String>();
 		serviceNames.add("monitor");
-		heartbeatClientProxy.addService("monitor", Config.getLocalIP(), String.valueOf(Config.getLocalPort()));
+		heartbeatClientProxy.addService("monitor", Config.getLocalIP(), String.valueOf(Config.getLocalPortMonitor()));
 		new ProviderHeartbeatThread(heartbeatClientProxy,serviceNames,localHostInfo).start();
 		
-		Server server=ServerBuilder.forPort(Config.getLocalPort())
+		Server server=ServerBuilder.forPort(Config.getLocalPortMonitor())
 					.addService(new MonitorService())
 					.build();
 		try {

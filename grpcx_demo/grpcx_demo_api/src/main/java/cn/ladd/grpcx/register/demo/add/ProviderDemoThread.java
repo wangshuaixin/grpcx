@@ -18,7 +18,7 @@ public class ProviderDemoThread extends BaseThread{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		Server server=ServerBuilder.forPort(Config.getLocalPort())
+		Server server=ServerBuilder.forPort(Config.getLocalPortProvider())
 				.addService(new AddService())
 				.build();
 		try {

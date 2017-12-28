@@ -23,7 +23,7 @@ import io.grpc.ServerBuilder;
 public class Provider {
 	public static void main(String[] args) throws InterruptedException {
 		
-		Server server=ServerBuilder.forPort(Config.getLocalPort())
+		Server server=ServerBuilder.forPort(Config.getLocalPortProvider())
 						.addService(new AddService())
 						.build();
 		try {

@@ -48,7 +48,6 @@ public class HeartbeatMonitor extends Thread{
 		try {
 			lastUpdateTime=Long.valueOf(nodeData);
 		} catch (NumberFormatException e) {
-			// TODO: handle exception
 			logger.info(e.getMessage());
 			return;
 		}

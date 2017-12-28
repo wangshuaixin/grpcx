@@ -20,7 +20,11 @@ public class Config {
 	static String DEFAULT_REGISTER_IP="127.0.0.1";
 	static int DEFAULT_REGISTER_PORT=8090;
 	static String DEFAULT_LOCAL_IP="127.0.0.1";
-	static int DEFAULT_LOCAL_PORT=8094;
+	static int DEFAULT_LOCAL_PORT_REGISTER=8090;
+	static int DEFAULT_LOCAL_PORT_MONITOR=8091;
+	static int DEFAULT_LOCAL_PORT_PROVIDER=8092;
+	static int DEFAULT_LOCAL_PORT_CONSUMER=8093;
+	
 	static Logger logger=Logger.getLogger(Config.class);
 	static
 	{
@@ -125,15 +129,49 @@ public class Config {
 		return DEFAULT_LOCAL_IP;
 	}
 	
-	public static int getLocalPort()
+	
+	public static int getLocalPortRegister()
 	{
-		String localPort=getValue("localhost.port");
+		String localPort=getValue("localhost.port.register");
 		if(localPort!=null&&!localPort.isEmpty())
 		{
 			logger.info("localPort is "+localPort);
 			return Integer.valueOf(localPort);
 		}
-		return DEFAULT_LOCAL_PORT;
+		return DEFAULT_LOCAL_PORT_REGISTER;
+	}
+	
+	public static int getLocalPortMonitor()
+	{
+		String localPort=getValue("localhost.port.monitor");
+		if(localPort!=null&&!localPort.isEmpty())
+		{
+			logger.info("localPort is "+localPort);
+			return Integer.valueOf(localPort);
+		}
+		return DEFAULT_LOCAL_PORT_MONITOR;
+	}
+	
+	public static int getLocalPortProvider()
+	{
+		String localPort=getValue("localhost.port.provider");
+		if(localPort!=null&&!localPort.isEmpty())
+		{
+			logger.info("localPort is "+localPort);
+			return Integer.valueOf(localPort);
+		}
+		return DEFAULT_LOCAL_PORT_PROVIDER;
+	}
+	
+	public static int getLocalPortConsumer()
+	{
+		String localPort=getValue("localhost.port.consumer");
+		if(localPort!=null&&!localPort.isEmpty())
+		{
+			logger.info("localPort is "+localPort);
+			return Integer.valueOf(localPort);
+		}
+		return DEFAULT_LOCAL_PORT_CONSUMER;
 	}
 	
 	
