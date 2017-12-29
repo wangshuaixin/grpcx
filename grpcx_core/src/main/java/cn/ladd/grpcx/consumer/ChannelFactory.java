@@ -19,6 +19,8 @@ public class ChannelFactory {
 	public static ManagedChannel getChannel(String serviceName)
 	{
 		HostInfo hostInfo=LoadBalance.getHostInfo(serviceName);
+		if(hostInfo==null)
+			return null;
 		synchronized (ChannelFactory.class) {
 			if(serviceChannels.get(hostInfo)!=null)
 			{

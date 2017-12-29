@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 
 public class Config {
 	static Properties properties;
-	static String propertiesFileName="config.properties";
+	static String propertiesFileName="/config.properties";
 	static String DEFAULT_ZOOKEEPER_IP="127.0.0.1";
 	static String DEFAULT_ZOOKEEPER_PORT="2181";
 	static int DEFAULT_HEARTBEAT_OVERDUE=300;
@@ -30,7 +30,7 @@ public class Config {
 	{
 		properties=new Properties();
 		try {
-			InputStream inputStream=Config.class.getClassLoader().getResourceAsStream(propertiesFileName);
+			InputStream inputStream=Config.class.getClass().getResourceAsStream(propertiesFileName);
 			if(inputStream!=null&&inputStream.available()>0)
 			{
 				properties.load(inputStream);
