@@ -1,7 +1,6 @@
 # grpcx
 Grpcx is a rpc framework based on grpc. Compare to grpc,  a service register center based on zookeeper is added and load blance service is implemented.  
 [![Build Status](https://travis-ci.org/laddcn/grpcx.svg?branch=master)](https://travis-ci.org/laddcn/grpcx)
-[![Coverage Status](https://coveralls.io/repos/github/laddcn/grpcx/badge.svg?branch=master)](https://coveralls.io/github/laddcn/grpcx?branch=master)
 ![](https://img.shields.io/github/license/laddcn/grpcx.svg)
 
 # How to Build and Depoly
