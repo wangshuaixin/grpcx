@@ -7,6 +7,7 @@ import cn.ladd.grpcx.register.service.HeartbeatService;
 import cn.ladd.grpcx.register.service.RegisterService;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
+import org.apache.log4j.Logger;
 
 /**
  * Register center server class
@@ -17,6 +18,9 @@ import io.grpc.ServerBuilder;
  * @date 20171125
  */
 public class RegisterServer {
+
+	private static Logger logger=Logger.getLogger(RegisterServer.class);
+
 	public static void main(String[] args) {
 		HeartbeatMonitor heartbeatMonitor=new HeartbeatMonitor();
 		heartbeatMonitor.start();
@@ -30,11 +34,9 @@ public class RegisterServer {
 			server.start();
 			server.awaitTermination();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e.getMessage());
 		}
 				
 	}
