@@ -5,10 +5,13 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 import org.junit.runners.MethodSorters;
 
 import cn.ladd.grpcx.register.common.HostInfo;
 
+@RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterTest {
 	HostInfo calHostInfo;
