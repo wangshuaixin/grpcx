@@ -9,54 +9,71 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+/**
+ * static config class
+ * use properties to load config information from file
+ */
 public class Config {
-	static Properties properties;
-	static String propertiesFileName="/config.properties";
-	static String DEFAULT_ZOOKEEPER_IP="127.0.0.1";
-	static String DEFAULT_ZOOKEEPER_PORT="2181";
-	static int DEFAULT_HEARTBEAT_OVERDUE=300;
-	static int DEFAULT_HEARTBEAT_INTERVAL=10;
-	static int DEFAULT_HEARTBEAT_NODECHECK_INTERVAL=10;
-	static String DEFAULT_REGISTER_IP="127.0.0.1";
-	static int DEFAULT_REGISTER_PORT=8090;
-	static String DEFAULT_LOCAL_IP="127.0.0.1";
-	static int DEFAULT_LOCAL_PORT_REGISTER=8090;
-	static int DEFAULT_LOCAL_PORT_MONITOR=8091;
-	static int DEFAULT_LOCAL_PORT_PROVIDER=8092;
-	static int DEFAULT_LOCAL_PORT_CONSUMER=8093;
-	
-	static Logger logger=Logger.getLogger(Config.class);
+	private static Properties properties;
+	private static String propertiesFileName="/config.properties";
+
+	private static String DEFAULT_ZOOKEEPER_IP="127.0.0.1";
+	private static String DEFAULT_ZOOKEEPER_PORT="2181";
+
+	private static int DEFAULT_HEARTBEAT_OVERDUE=300;
+	private static int DEFAULT_HEARTBEAT_INTERVAL=10;
+	private static int DEFAULT_HEARTBEAT_NODECHECK_INTERVAL=10;
+
+	private static String DEFAULT_REGISTER_IP="127.0.0.1";
+	private static int DEFAULT_REGISTER_PORT=8090;
+
+	private static String DEFAULT_LOCAL_IP="127.0.0.1";
+	private static int DEFAULT_LOCAL_PORT_REGISTER=8090;
+	private static int DEFAULT_LOCAL_PORT_MONITOR=8091;
+	private static int DEFAULT_LOCAL_PORT_PROVIDER=8092;
+	private static int DEFAULT_LOCAL_PORT_CONSUMER=8093;
+
+	private static Logger logger=Logger.getLogger(Config.class);
+
+	/**
+	 * load properties from file
+	 */
 	static
 	{
 		properties=new Properties();
 		try {
-			InputStream inputStream=Config.class.getClass().getResourceAsStream(propertiesFileName);
-			if(inputStream!=null&&inputStream.available()>0)
+			InputStream configInputStream=Config.class.getClass().getResourceAsStream(propertiesFileName);
+			if(configInputStream!=null&&configInputStream.available()>0)
 			{
-				properties.load(inputStream);
+				properties.load(configInputStream);
 			}
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Config file "+propertiesFileName+" not found!");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Load config file ioexception:",e);
 		}
 	}
-	
+
+	/**
+	 * Get zookeeper host for format: 127.0.0.1:2181
+	 * @return
+	 */
 	public static String getZookeeperHost()
 	{
 		String ip=getValue("zookeeper.ip");
-		String port=getValue("zookeeper.port");
-		logger.info("Load ip:port is "+ip+":"+port);
 		if(ip==null||ip.isEmpty())
 		{
 			ip=DEFAULT_ZOOKEEPER_IP;
 		}
+
+		String port=getValue("zookeeper.port");
 		if(port==null||port.isEmpty())
 		{
 			port=DEFAULT_ZOOKEEPER_PORT;
 		}
+
+		logger.info("Load ip:port is "+ip+":"+port);
+
 		return ip+":"+port;
 	}
 	
@@ -202,11 +219,6 @@ public class Config {
 		}
 		return refServiceNameList;
 	}
-	
-	
-	public static void main(String[] args) {
-		logger.info(getLocalIP());
-	}
-	
+
 	
 }
