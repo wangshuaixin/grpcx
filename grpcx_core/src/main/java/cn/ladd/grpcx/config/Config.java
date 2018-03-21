@@ -17,21 +17,22 @@ public class Config {
 	private static Properties properties;
 	private static String propertiesFileName="/config.properties";
 
-	private static String DEFAULT_ZOOKEEPER_IP="127.0.0.1";
-	private static String DEFAULT_ZOOKEEPER_PORT="2181";
 
-	private static int DEFAULT_HEARTBEAT_OVERDUE=300;
-	private static int DEFAULT_HEARTBEAT_INTERVAL=10;
-	private static int DEFAULT_HEARTBEAT_NODECHECK_INTERVAL=10;
+	static String DEFAULT_ZOOKEEPER_IP="127.0.0.1";
+	static String DEFAULT_ZOOKEEPER_PORT="2181";
 
-	private static String DEFAULT_REGISTER_IP="127.0.0.1";
-	private static int DEFAULT_REGISTER_PORT=8090;
+	static int DEFAULT_HEARTBEAT_OVERDUE=300;
+	static int DEFAULT_HEARTBEAT_INTERVAL=10;
+	static int DEFAULT_HEARTBEAT_NODECHECK_INTERVAL=10;
 
-	private static String DEFAULT_LOCAL_IP="127.0.0.1";
-	private static int DEFAULT_LOCAL_PORT_REGISTER=8090;
-	private static int DEFAULT_LOCAL_PORT_MONITOR=8091;
-	private static int DEFAULT_LOCAL_PORT_PROVIDER=8092;
-	private static int DEFAULT_LOCAL_PORT_CONSUMER=8093;
+	static String DEFAULT_REGISTER_IP="127.0.0.1";
+	static int DEFAULT_REGISTER_PORT=8090;
+
+	static String DEFAULT_LOCAL_IP="127.0.0.1";
+	static int DEFAULT_LOCAL_PORT_REGISTER=8090;
+	static int DEFAULT_LOCAL_PORT_MONITOR=8091;
+	static int DEFAULT_LOCAL_PORT_PROVIDER=8092;
+	static int DEFAULT_LOCAL_PORT_CONSUMER=8093;
 
 	private static Logger logger=Logger.getLogger(Config.class);
 
