@@ -14,8 +14,10 @@ import cn.ladd.grpcx.register.common.HostInfo;
 @RunWith(JUnit4.class)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterTest {
-	HostInfo calHostInfo;
-	HostInfo playHostInfo;
+
+	private HostInfo calHostInfo;
+	private HostInfo playHostInfo;
+
 	@Before
 	public void setUp()
 	{
@@ -32,19 +34,25 @@ public class RegisterTest {
 
 	@Test
 	public void testAddService() {
+
 		Register.addService("cal", calHostInfo);
 		Register.addService("play", playHostInfo);
+
 		assertTrue(calHostInfo.equals(Register.lookup("cal").get(0)));
 		assertTrue(playHostInfo.equals(Register.lookup("play").get(0)));
+
 	}
 	
 	
 	@Test
 	public void testRemoveService() {
+
 		Register.removeService("cal", calHostInfo);
 		Register.removeService("play", playHostInfo);
+
 		assertTrue(Register.lookup("cal").isEmpty());
 		assertTrue(Register.lookup("play").isEmpty());
+
 	}
 
 }
