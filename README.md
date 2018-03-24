@@ -7,7 +7,7 @@ Grpcx is a rpc framework based on grpc. Compare to grpc,  a service register cen
 # How to Build and Depoly
 
 ### Requirement:  
-JDK1.6+   
+JDK1.8+   
 Zookeeper3+  
 Git  
 Eclipse  
